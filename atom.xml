@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-26T10:07:02.000Z</updated>
+  <updated>2017-03-26T14:07:37.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,12 +20,14 @@
     <link href="http://yoursite.com/2017/03/26/Android%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/03/26/Android系统的启动流程/</id>
     <published>2017-03-26T10:07:02.000Z</published>
-    <updated>2017-03-26T10:07:02.000Z</updated>
+    <updated>2017-03-26T14:07:37.000Z</updated>
     
     <summary type="html">
     
     </summary>
     
+    
+      <category term="android" scheme="http://yoursite.com/tags/android/"/>
     
   </entry>
   
@@ -220,6 +222,28 @@
     
     
       <category term="装修" scheme="http://yoursite.com/tags/%E8%A3%85%E4%BF%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android进程间通信方案</title>
+    <link href="http://yoursite.com/2017/03/20/Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%A1%88/"/>
+    <id>http://yoursite.com/2017/03/20/Android进程间通信方案/</id>
+    <published>2017-03-20T15:39:31.000Z</published>
+    <updated>2017-03-26T14:07:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Android的进程间</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Android的进程间&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+      <category term="android" scheme="http://yoursite.com/tags/android/"/>
     
   </entry>
   

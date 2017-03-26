@@ -9,6 +9,12 @@
       <content type="html"></content>
       
         
+        <tags>
+            
+            <tag> android </tag>
+            
+        </tags>
+        
     </entry>
     
     <entry>
@@ -192,6 +198,21 @@
         <tags>
             
             <tag> 装修 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android进程间通信方案]]></title>
+      <url>http://yoursite.com/2017/03/20/Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%A1%88/</url>
+      <content type="html"><![CDATA[<p>Android的进程间</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> android </tag>
             
         </tags>
         
