@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-26T03:25:10.000Z</updated>
+  <updated>2017-04-26T03:26:19.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/18/adb%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2017/04/18/adb常见命令总结/</id>
     <published>2017-04-18T12:50:14.000Z</published>
-    <updated>2017-04-26T03:25:10.000Z</updated>
+    <updated>2017-04-26T03:26:19.000Z</updated>
     
     <content type="html"><![CDATA[<p>adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。</p>
 <h2 id="基础脚本"><a href="#基础脚本" class="headerlink" title="基础脚本:"></a>基础脚本:</h2><p>1、启动adb服务</p>
@@ -194,6 +194,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.schema</div></pre></td></tr></table></figure>
 <p>或者</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from sqlite_master where type = &quot;table&quot;;</div></pre></td></tr></table></figure>
+<p>ps:原创文章，转载注明出处</p>
 ]]></content>
     
     <summary type="html">
