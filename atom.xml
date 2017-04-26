@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-25T12:40:55.000Z</updated>
+  <updated>2017-04-26T03:25:10.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/18/adb%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2017/04/18/adb常见命令总结/</id>
     <published>2017-04-18T12:50:14.000Z</published>
-    <updated>2017-04-25T12:40:55.000Z</updated>
+    <updated>2017-04-26T03:25:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。</p>
 <h2 id="基础脚本"><a href="#基础脚本" class="headerlink" title="基础脚本:"></a>基础脚本:</h2><p>1、启动adb服务</p>
@@ -59,7 +59,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am start -W &lt;package_name&gt;/.&lt;activity_class_name&gt;</div></pre></td></tr></table></figure>
 <p>试验结果如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">adb shell am start -W com.cc.test/com.painter.test.PainterMainActivity</div><div class="line">Starting: Intent &#123; act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.cc.test/com.painter.test.PainterMainActivity &#125;</div><div class="line">Status: ok</div><div class="line">Activity: com.cc.test/com.painter.test.PainterMainActivity</div><div class="line">ThisTime: 355</div><div class="line">TotalTime: 355</div><div class="line">WaitTime: 365</div><div class="line">Complete</div></pre></td></tr></table></figure>
-<p>返回的几个结果，以WaitTime为准，返回的是从startActivity到应用第一帧完全显示的时间，这几个参数的区别这里不详细介绍了。</p>
+<p>返回的几个结果，以WaitTime为准，返回的是从startActivity到应用第一帧完全显示的时间。</p>
 <p>8、启动service,am的-n参数表示组件，-a参数表示命令，-a后面的参数为manifest中定义的service的action</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am startservice -n &lt;package_name&gt;/.&lt;service_class_name&gt;</div></pre></td></tr></table></figure>
 <p>也可:</p>
@@ -184,7 +184,7 @@
 <p>13、手机未root 查看data/data/某一app文件信息  </p>
 <p>  笔者的小米3没有root，但是又想方便地查看data/data/目录下的一些文件，直接进入data会提示没有权限,查看的方式为进入data/data/后,运行下面的命令，就能直接进入你应用的包下了,可通用cp或者mv拷贝或移动到sdcard目录进行其他操作</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">run-as package_name</div></pre></td></tr></table></figure>
-<p>##数据库相关<br>数据库的操作和今天的主题关系不大，但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>1、操作db</p>
+<p>##数据库相关<br>数据库的操作和今天的主题关系不大，增删改查操作不再列举。但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>1、操作db</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite3 test.db</div></pre></td></tr></table></figure>
 <p>2、对db使用sqlite3命令后，通过.help查看各种使用指导</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.help</div></pre></td></tr></table></figure>
@@ -194,7 +194,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.schema</div></pre></td></tr></table></figure>
 <p>或者</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from sqlite_master where type = &quot;table&quot;;</div></pre></td></tr></table></figure>
-<p>5、数据库的增删改查操作在此不再赘述</p>
 ]]></content>
     
     <summary type="html">
