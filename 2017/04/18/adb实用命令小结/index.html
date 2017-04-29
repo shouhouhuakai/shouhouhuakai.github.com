@@ -91,7 +91,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/18/adb实用命令小结/index.html">
 <meta property="og:site_name" content="Welcome to cc's blog!">
 <meta property="og:description" content="adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。">
-<meta property="og:updated_time" content="2017-04-27T05:35:46.000Z">
+<meta property="og:updated_time" content="2017-04-29T08:03:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="adb实用命令小结">
 <meta name="twitter:description" content="adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。">
@@ -434,7 +434,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb remount</div></pre></td></tr></table></figure>
 <p>8、重启设备,可选参数进入bootloader(刷机模式)或recovery(恢复模式)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb reboot [bootloader|recovery]</div></pre></td></tr></table></figure>
-<p>##apk相关:<br>1、安装apk</p>
+<h2 id="apk相关"><a href="#apk相关" class="headerlink" title="apk相关:"></a>apk相关:</h2><p>1、安装apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb install test.apk</div><div class="line">    -r 覆盖安装，保留数据和缓存文件</div><div class="line">    -d 解决低版本version问题</div><div class="line">    -s 安装apk到sd卡</div></pre></td></tr></table></figure>
 <p>2、卸载apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb uninstall -k &lt;package_name&gt;</div></pre></td></tr></table></figure>
@@ -487,8 +487,7 @@
 <p>15、跑monkey,个人很喜欢这个命令，运行过程中，应用程序会不断切换画面，按照选定的不同级别反馈信息，还可以看到执行过程报告和生成的事件。测试应用的稳定性时很实用。 现在studio也有了monkeyrunner的tool</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">adb shell monkey -v -p &lt;package_name&gt; 500</div><div class="line">       -p 对象包</div><div class="line">       -v 反馈信息级别</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">:Monkey: seed=1493061025112 count=500</div><div class="line">:AllowPackage: com.tencent.mm.app:push</div><div class="line">:IncludeCategory: android.intent.category.LAUNCHER</div><div class="line">:IncludeCategory: android.intent.category.MONKEY</div><div class="line">** No activities found to run, monkey aborted.</div></pre></td></tr></table></figure>
-<p>##系统相关</p>
-<p>1、查看设备名称，豌豆荚等应用就是通过此来获得设备的名称</p>
+<h2 id="系统相关"><a href="#系统相关" class="headerlink" title="系统相关"></a>系统相关</h2><p>1、查看设备名称，豌豆荚等应用就是通过此来获得设备的名称</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /system/build.prop/</div></pre></td></tr></table></figure>
 <p>结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ro.product.model=MI 3W</div><div class="line">ro.product.brand=Xiaomi</div></pre></td></tr></table></figure>
@@ -550,7 +549,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys power</div></pre></td></tr></table></figure>
 <p>返回结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Wake Locks: size=2</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;AudioMix&apos; (uid=1013, pid=236, ws=WorkSource&#123;10018&#125;)</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;Android.media.MediaPlayer&apos; ON_AFTER_RELEASE (uid=10018, pid=24023, ws=null)</div></pre></td></tr></table></figure>
-<p>##文件操作相关:<br>1、拷贝文件/目录到设备</p>
+<h2 id="文件操作相关"><a href="#文件操作相关" class="headerlink" title="文件操作相关:"></a>文件操作相关:</h2><p>1、拷贝文件/目录到设备</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb push &lt;local&gt;...&lt;remote&gt;</div></pre></td></tr></table></figure>
 <p>2、从设备拷贝文件/目录，-a参数保留了文件的时间戳和模式</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb pull [-a] &lt;remote&gt;...&lt;local&gt;</div></pre></td></tr></table></figure>
@@ -579,7 +578,7 @@
 <p>13、手机未root 查看data/data/某一app文件信息  </p>
 <p>  笔者的小米3没有root，但是又想方便地查看data/data/目录下的一些文件，直接进入data会提示没有权限,查看的方式为进入data/data/后,运行下面的命令，就能直接进入你应用的包下了,可通用cp或者mv拷贝或移动到sdcard目录进行其他操作</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">run-as package_name</div></pre></td></tr></table></figure>
-<p>##数据库相关<br>数据库的操作和今天的主题关系不大，增删改查操作不再列举。但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>1、操作db</p>
+<h2 id="数据库相关"><a href="#数据库相关" class="headerlink" title="数据库相关"></a>数据库相关</h2><p>数据库的操作和今天的主题关系不大，增删改查操作不再列举。但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>1、操作db</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite3 test.db</div></pre></td></tr></table></figure>
 <p>2、对db使用sqlite3命令后，通过.help查看各种使用指导</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.help</div></pre></td></tr></table></figure>
@@ -808,7 +807,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础脚本"><span class="nav-number">1.</span> <span class="nav-text">基础脚本:</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础脚本"><span class="nav-number">1.</span> <span class="nav-text">基础脚本:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apk相关"><span class="nav-number">2.</span> <span class="nav-text">apk相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统相关"><span class="nav-number">3.</span> <span class="nav-text">系统相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件操作相关"><span class="nav-number">4.</span> <span class="nav-text">文件操作相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库相关"><span class="nav-number">5.</span> <span class="nav-text">数据库相关</span></a></li></ol></div>
             
 
           </div>
