@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-29T08:03:44.000Z</updated>
+  <updated>2017-05-05T02:04:01.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/18/adb%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4%E5%B0%8F%E7%BB%93/"/>
     <id>http://yoursite.com/2017/04/18/adb实用命令小结/</id>
     <published>2017-04-18T12:50:14.000Z</published>
-    <updated>2017-04-29T08:03:44.000Z</updated>
+    <updated>2017-05-05T02:04:01.000Z</updated>
     
     <content type="html"><![CDATA[<p>adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。</p>
 <a id="more"></a>
@@ -155,6 +155,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys power</div></pre></td></tr></table></figure>
 <p>返回结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Wake Locks: size=2</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;AudioMix&apos; (uid=1013, pid=236, ws=WorkSource&#123;10018&#125;)</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;Android.media.MediaPlayer&apos; ON_AFTER_RELEASE (uid=10018, pid=24023, ws=null)</div></pre></td></tr></table></figure>
+<p>15、系统时间相关<br>15.1<br>获取系统时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date</div><div class="line">Thu May  4 20:34:29 CST 2017</div></pre></td></tr></table></figure>
+<p>15.2<br>修改系统时间(需要root权限)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb root</div><div class="line">adb date -s &quot;yyyymmdd.[[[hh]mm]ss]&quot;</div></pre></td></tr></table></figure>
+<p>上面的参数看起来有点复杂，其实就是除了年月日之外，只有两个参数代表的是秒,再加两个参数代码的是分钟，再加两个参数是小时。</p>
+<p>例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.03&quot;</div><div class="line">Thu May  4 00:00:03 CST 2017</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.0330&quot;</div><div class="line">Thu May  4 00:03:30 CST 2017</div></pre></td></tr></table></figure>
 <h2 id="文件操作相关"><a href="#文件操作相关" class="headerlink" title="文件操作相关:"></a>文件操作相关:</h2><p>1、拷贝文件/目录到设备</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb push &lt;local&gt;...&lt;remote&gt;</div></pre></td></tr></table></figure>
 <p>2、从设备拷贝文件/目录，-a参数保留了文件的时间戳和模式</p>
