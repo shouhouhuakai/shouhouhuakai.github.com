@@ -22,148 +22,71 @@
     <published>2017-08-01T09:14:20.000Z</published>
     <updated>2017-08-01T09:58:26.000Z</updated>
     
-    <content type="html"><![CDATA[<p>小结一下native crash捕获的原理以及常用的查看crash堆栈方法。附录为常见的ndk相关命令。</p>
+    <content type="html"><![CDATA[<p>小结一下native crash捕获的原理以及常用的查看crash堆栈方法。附录为常见的ndk相关命令。 </p>
 <a id="more"></a> 
-<h2 id="一-native-crash捕获原理"><a class="header-anchor" href="#一-native-crash捕获原理">¶</a>一、native crash捕获原理</h2>
-<p>native crash捕获的原理摘选完善自:<a href="https://www.geekhub.cn/a/294.html" target="_blank" rel="external">Android 开发中常见 Crash 的情况。</a>native crash捕获主要利用了Linux的信号机制(进程间通信方式的一种)。当应用程序异常，Linux内核将产生的错误信息通知当前进程。当前进程在接收到该错误信号后，可以有三种不同的处理方式。<br>
-(1)忽略该信号。<br>
-(2)捕捉该信号并执行对应的信号处理函数(signal handler)。<br>
-(3)执行该信号的缺省操作(如 SIGSEGV， 其缺省操作是终止进程)。</p>
-<p>当 Linux 应用程序在执行时发生严重错误，一般会导致程序 crash。其中，Linux 专门提供了一类 crash 信号，在程序接收到此类信号时，缺省操作是将 crash 的现场信息记录到 core 文件，然后终止进程。</p>
-<p>Android Native程序本质上就是一个Linux程序，在执行时发生错误程序crash之后，也会产生一个记录crash现场信息的文件，在Android系统中就是tombstone文件，这个文件保存在路径/data/tombstones/目录下，以tombstone_数字编号命名。</p>
-<p>参见下面这个tombstone文件，是我从data/tombstones/目录下拷贝出来的tombstone_00文件，可以看到此文件记录了死亡进程的基本信息(比如进程的进程号(pid)、线程号(tid))，死亡的地址，死亡现场的堆栈调用信息等:</p>
+<h2 id="一、native-crash捕获原理"><a href="#一、native-crash捕获原理" class="headerlink" title="一、native crash捕获原理"></a>一、native crash捕获原理</h2><p>native crash捕获的原理摘选完善自:<a href="https://www.geekhub.cn/a/294.html" target="_blank" rel="external">Android 开发中常见 Crash 的情况。</a>native crash捕获主要利用了Linux的信号机制(进程间通信方式的一种)。当应用程序异常，Linux内核将产生的错误信息通知当前进程。当前进程在接收到该错误信号后，可以有三种不同的处理方式。<br>(1)忽略该信号。<br>(2)捕捉该信号并执行对应的信号处理函数(signal handler)。<br>(3)执行该信号的缺省操作(如 SIGSEGV， 其缺省操作是终止进程)。  </p>
+<p>当 Linux 应用程序在执行时发生严重错误，一般会导致程序 crash。其中，Linux 专门提供了一类 crash 信号，在程序接收到此类信号时，缺省操作是将 crash 的现场信息记录到 core 文件，然后终止进程。  </p>
+<p>Android Native程序本质上就是一个Linux程序，在执行时发生错误程序crash之后，也会产生一个记录crash现场信息的文件，在Android系统中就是tombstone文件，这个文件保存在路径/data/tombstones/目录下，以tombstone_数字编号命名。 </p>
+<p>参见下面这个tombstone文件，是我从data/tombstones/目录下拷贝出来的tombstone_00文件，可以看到此文件记录了死亡进程的基本信息(比如进程的进程号(pid)、线程号(tid))，死亡的地址，死亡现场的堆栈调用信息等:    </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">Build fingerprint: &apos;Android/rk3288/rk3288:5.1.1/LMY49F/elc-liubei06091434:userdebug/test-keys&apos;</div><div class="line">Revision: &apos;0&apos;</div><div class="line">ABI: &apos;arm&apos;</div><div class="line">pid: 25243, tid: 25260, name: Binder_2  &gt;&gt;&gt; com.tencent.daemon &lt;&lt;&lt;</div><div class="line">signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x14</div><div class="line">    r0 00000000  r1 a1c47c02  r2 a1c47c08  r3 a2180820</div><div class="line">    r4 00000000  r5 72da7878  r6 00000006  r7 a1c47c08</div><div class="line">    r8 12e01660  r9 b72e3cd0  sl 12e09aa0  fp 12e09b20</div><div class="line">    ip b520d450  sp a21807b0  lr a1c0e1db  pc a1b85be0  cpsr 200d0030</div><div class="line">    d0  65742e6d6f632330  d1  616d2e746e656330</div><div class="line">    d2  3036314070706130  d3  3030313031303031</div><div class="line">    d4  7674710e0cf77572  d5  75f677890bf50ff6</div><div class="line">    d6  52b34d2a4aaa02e1  d7  71b31cc653c98a50</div><div class="line">    d8  0000000000000000  d9  0000000000000000</div><div class="line">    d10 0000000000000000  d11 0000000000000000</div><div class="line">    d12 0000000000000000  d13 0000000000000000</div><div class="line">    d14 0000000000000000  d15 0000000000000000</div><div class="line">    d16 0000000000000000  d17 4020000000000000</div><div class="line">    d18 4024000000000000  d19 72dd989072dd9858</div><div class="line">    d20 72dd974072dd9708  d21 4020000000000000</div><div class="line">    d22 6f6181706f618170  d23 72dd96d072dd9698</div><div class="line">    d24 6f6181706f618170  d25 6f6181706f618170</div><div class="line">    d26 6f6181706f618170  d27 6f6181706f618170</div><div class="line">    d28 6f6181706f618170  d29 6f6181706f618170</div><div class="line">    d30 6f6181706f618170  d31 4000000000000000</div><div class="line">    scr 80000011</div><div class="line"></div><div class="line">backtrace:</div><div class="line">    #00 pc 0007ebe0  /data/app/com.tencent.daemon-1/lib/arm/libhwnetcore.so (std::string::_M_assign(char const*, char const*)+7)</div><div class="line">    #01 pc 001071d7  /data/app/com.tencent.daemon-1/lib/arm/libhwnetcore.so (Java_com_tencent_wechat_HWNetcore_addCommonRequest+30)</div><div class="line">    #02 pc 001e0e79  /data/dalvik-cache/arm/data@app@com.tencent.daemon-1@base.apk@classes.dex  </div><div class="line">    </div><div class="line">stack:</div><div class="line">         a2180770  b520c9b8  /system/lib/libart.so</div><div class="line">         a2180774  00000030  </div><div class="line">         a2180778  b72e3cd0  [heap]</div><div class="line">         a218077c  b45fbe0e  </div><div class="line">         a2180780  b72f0628  [heap]</div><div class="line">         a2180784  b510e895  /system/lib/libart.so (art::JNI::ReleaseByteArrayElements(_JNIEnv*, _jbyteArray*, signed char*, int))</div><div class="line">         a2180788  b72e4310  [heap]</div><div class="line">         a218078c  a21807cc  [stack:25260]</div><div class="line">         a2180790  a2180820  [stack:25260]</div><div class="line">         a2180794  12e01660  /dev/ashmem/dalvik-main space (deleted)       </div><div class="line">```   </div><div class="line">      </div><div class="line">### tombstone文件主要的组成部分:  </div><div class="line"></div><div class="line">(1) Build fingerprint  </div><div class="line">  </div><div class="line">(2) ABI(Application binary interface):应用程序二进制接口，定义了一套规则，允许编译好的二进制目标代码在所有兼容该ABI的操作系统和硬件平台中无需改动就能运行。而具体的实现是由编译器、CPU和操作系统共同完成的。不同的CPU芯片(如ARM、Intel x86等)支持不同的ABI架构，常见的ABI类型包括:armeabi,armeabi-v7a,x86,x64,mips。从tombstone文件可看出ABI为ARM类型  </div><div class="line"></div><div class="line">(3) pid(进程号)和tid(线程号)，如果pid和tid相同，则在主线程中crash，name里面则是进程名</div></pre></td></tr></table></figure>
-<p>pid: 25243, tid: 25260, name: Binder_2  &gt;&gt;&gt; com.tencent.daemon &lt;&lt;&lt;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line">(4) Terminated signal and fault address信息</div><div class="line"></div><div class="line">可以看到是signal 11导致的crash,访问了非法的地址0x4  </div><div class="line"></div><div class="line">```    </div><div class="line">signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x14</div><div class="line">```     </div><div class="line"></div><div class="line">Android中信号量如下所示,只有signal 9可以无条件终止进程:</div></pre></td></tr></table></figure>
-<p>adb shell kill -l<br>
-1    HUP Hangup                        33     33 Signal 33<br>
-2    INT Interrupt                     34     34 Signal 34<br>
-3   QUIT Quit                          35     35 Signal 35<br>
-4    ILL Illegal instruction           36     36 Signal 36<br>
-5   TRAP Trap                          37     37 Signal 37<br>
-6   ABRT Aborted                       38     38 Signal 38<br>
-7    BUS Bus error                     39     39 Signal 39<br>
-8    FPE Floating point exception      40     40 Signal 40<br>
-9   KILL Killed                        41     41 Signal 41<br>
-10   USR1 User signal 1                 42     42 Signal 42<br>
-11   SEGV Segmentation fault            43     43 Signal 43<br>
-12   USR2 User signal 2                 44     44 Signal 44<br>
-13   PIPE Broken pipe                   45     45 Signal 45<br>
-14   ALRM Alarm clock                   46     46 Signal 46<br>
-15   TERM Terminated                    47     47 Signal 47<br>
-16 STKFLT Stack fault                   48     48 Signal 48<br>
-17   CHLD Child exited                  49     49 Signal 49<br>
-18   CONT Continue                      50     50 Signal 50<br>
-19   STOP Stopped (signal)              51     51 Signal 51<br>
-20   TSTP Stopped                       52     52 Signal 52<br>
-21   TTIN Stopped (tty input)           53     53 Signal 53<br>
-22   TTOU Stopped (tty output)          54     54 Signal 54<br>
-23    URG Urgent I/O condition          55     55 Signal 55<br>
-24   XCPU CPU time limit exceeded       56     56 Signal 56<br>
-25   XFSZ File size limit exceeded      57     57 Signal 57<br>
-26 VTALRM Virtual timer expired         58     58 Signal 58<br>
-27   PROF Profiling timer expired       59     59 Signal 59<br>
-28  WINCH Window size changed           60     60 Signal 60<br>
-29     IO I/O possible                  61     61 Signal 61<br>
-30    PWR Power failure                 62     62 Signal 62<br>
-31    SYS Bad system call               63     63 Signal 63<br>
-32     32 Signal 32                     64     64 Signal 64</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">下表列举了几个常见的信号量:  </div><div class="line">  </div><div class="line">  </div><div class="line">|信号量|Value|描述|</div><div class="line">|-----|-----|---|</div><div class="line">|SIGABRT|6|通过C函数abort()发送；为assert()使用 |</div><div class="line">|SIGKILL|9|迅速完全终止进程；不能被捕获|</div><div class="line">|SIGFPE|8|浮点数运算错误，如除0操作| </div><div class="line">|SIGSEGV|11|段地址错误，例如空指针、野指针、数组越界等|</div><div class="line">|SIGPIPE|13|管道错误，例如向没有reader的管道中写,linux中socket断掉后继续写|</div><div class="line">|SIGILL|4|非法指令，例如损坏的可执行文件或代码区损坏|</div><div class="line">|SIGBUS|7|不存在的物理地址，更多为硬件或系统引起|  </div><div class="line"></div><div class="line">  </div><div class="line">(5) Call Stack信息  </div><div class="line">  </div><div class="line">调用栈信息记录了程序在Crash前的函数调用关系以及正在执行函数的信息。#00，#01等为函数调用栈中栈帧的编号，编号越小的栈帧表示最近调用的函数信息，所以栈帧标号为#00 表示的是当前正在执行并导致程序crash的函数信息。pc后面的十六进制表示当前函数正在执行语句在共享链接库或可执行文件中的位置，/data/app/com.tencent.daemon-1/lib/arm/libhwnetcore.so表示执行指令在哪个文件中，括号里面注明了对应的函数。</div></pre></td></tr></table></figure>
-<p>backtrace:<br>
-#00 pc 0007ebe0  /data/app/com.tencent.daemon-1/lib/arm/libhwnetcore.so (std::string::_M_assign(char const*, char const*)+7)<br>
-#01 pc 001071d7  /data/app/com.tencent.daemon-1/lib/arm/libhwnetcore.so (Java_com_tencent_wechat_HWNetcore_addCommonRequest+30)<br>
-#02 pc 001e0e79  /data/dalvik-cache/arm/data@app@com.tencent.daemon-1@base.apk@classes.dex</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line">## 二、解析native crash堆栈的三种常用方法  </div><div class="line">  </div><div class="line">为了能正确解析出来crash的堆栈，我们需要保存好obj下面的so,libs目录下的so丢失了调试信息和符号表，不能正确地解析出来原代码。    </div><div class="line"></div><div class="line">### 1、使用ndk-stack  </div><div class="line"></div><div class="line">ndk-stack命令从r6版本开始提供，能自动分析tombstone文件，将崩溃时的调用内存地址和c++代码一一对应，位于ndk目录下。  </div><div class="line">  </div><div class="line">(1)直接利用adb logcat作为input</div></pre></td></tr></table></figure>
+<p>pid: 25243, tid: 25260, name: Binder_2  &gt;&gt;&gt; com.tencent.daemon &lt;&lt;&lt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line">(4) Terminated signal and fault address信息</div><div class="line"></div><div class="line">可以看到是signal 11导致的crash,访问了非法的地址0x4  </div><div class="line"></div><div class="line">```    </div><div class="line">signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x14</div><div class="line">```     </div><div class="line"></div><div class="line">Android中信号量如下所示,只有signal 9可以无条件终止进程:</div></pre></td></tr></table></figure></p>
+<p>adb shell kill -l<br> 1    HUP Hangup                        33     33 Signal 33<br> 2    INT Interrupt                     34     34 Signal 34<br> 3   QUIT Quit                          35     35 Signal 35<br> 4    ILL Illegal instruction           36     36 Signal 36<br> 5   TRAP Trap                          37     37 Signal 37<br> 6   ABRT Aborted                       38     38 Signal 38<br> 7    BUS Bus error                     39     39 Signal 39<br> 8    FPE Floating point exception      40     40 Signal 40<br> 9   KILL Killed                        41     41 Signal 41<br>10   USR1 User signal 1                 42     42 Signal 42<br>11   SEGV Segmentation fault            43     43 Signal 43<br>12   USR2 User signal 2                 44     44 Signal 44<br>13   PIPE Broken pipe                   45     45 Signal 45<br>14   ALRM Alarm clock                   46     46 Signal 46<br>15   TERM Terminated                    47     47 Signal 47<br>16 STKFLT Stack fault                   48     48 Signal 48<br>17   CHLD Child exited                  49     49 Signal 49<br>18   CONT Continue                      50     50 Signal 50<br>19   STOP Stopped (signal)              51     51 Signal 51<br>20   TSTP Stopped                       52     52 Signal 52<br>21   TTIN Stopped (tty input)           53     53 Signal 53<br>22   TTOU Stopped (tty output)          54     54 Signal 54<br>23    URG Urgent I/O condition          55     55 Signal 55<br>24   XCPU CPU time limit exceeded       56     56 Signal 56<br>25   XFSZ File size limit exceeded      57     57 Signal 57<br>26 VTALRM Virtual timer expired         58     58 Signal 58<br>27   PROF Profiling timer expired       59     59 Signal 59<br>28  WINCH Window size changed           60     60 Signal 60<br>29     IO I/O possible                  61     61 Signal 61<br>30    PWR Power failure                 62     62 Signal 62<br>31    SYS Bad system call               63     63 Signal 63<br>32     32 Signal 32                     64     64 Signal 64<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">下表列举了几个常见的信号量:  </div><div class="line">  </div><div class="line">  </div><div class="line">|信号量|Value|描述|</div><div class="line">|-----|-----|---|</div><div class="line">|SIGABRT|6|通过C函数abort()发送；为assert()使用 |</div><div class="line">|SIGKILL|9|迅速完全终止进程；不能被捕获|</div><div class="line">|SIGFPE|8|浮点数运算错误，如除0操作| </div><div class="line">|SIGSEGV|11|段地址错误，例如空指针、野指针、数组越界等|</div><div class="line">|SIGPIPE|13|管道错误，例如向没有reader的管道中写,linux中socket断掉后继续写|</div><div class="line">|SIGILL|4|非法指令，例如损坏的可执行文件或代码区损坏|</div><div class="line">|SIGBUS|7|不存在的物理地址，更多为硬件或系统引起|  </div><div class="line"></div><div class="line">  </div><div class="line">(5) Call Stack信息  </div><div class="line">  </div><div class="line">调用栈信息记录了程序在Crash前的函数调用关系以及正在执行函数的信息。#00，#01等为函数调用栈中栈帧的编号，编号越小的栈帧表示最近调用的函数信息，所以栈帧标号为#00 表示的是当前正在执行并导致程序crash的函数信息。pc后面的十六进制表示当前函数正在执行语句在共享链接库或可执行文件中的位置，/data/app/com.tencent.daemon-1/lib/arm/libhwnetcore.so表示执行指令在哪个文件中，括号里面注明了对应的函数。</div></pre></td></tr></table></figure></p>
+<p>backtrace:</p>
+<pre><code>#00 pc 0007ebe0  /data/app/com.tencent.daemon-1/lib/arm/libhwnetcore.so (std::string::_M_assign(char const*, char const*)+7)
+#01 pc 001071d7  /data/app/com.tencent.daemon-1/lib/arm/libhwnetcore.so (Java_com_tencent_wechat_HWNetcore_addCommonRequest+30)
+#02 pc 001e0e79  /data/dalvik-cache/arm/data@app@com.tencent.daemon-1@base.apk@classes.dex
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line">## 二、解析native crash堆栈的三种常用方法  </div><div class="line">  </div><div class="line">为了能正确解析出来crash的堆栈，我们需要保存好obj下面的so,libs目录下的so丢失了调试信息和符号表，不能正确地解析出来原代码。    </div><div class="line"></div><div class="line">### 1、使用ndk-stack  </div><div class="line"></div><div class="line">ndk-stack命令从r6版本开始提供，能自动分析tombstone文件，将崩溃时的调用内存地址和c++代码一一对应，位于ndk目录下。  </div><div class="line">  </div><div class="line">(1)直接利用adb logcat作为input</div></pre></td></tr></table></figure>
 <p>adb logcat | $NDK/ndk-stack -sym $PROJECT_PATH/obj/local/armeabi</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(2)解析文件  </div><div class="line"></div><div class="line">``` </div><div class="line">adb logcat &gt; /tmp/foo.txt  (可选，已经有crash file，直接解析即可)</div><div class="line"> </div><div class="line">$NDK/ndk-stack -sym $PROJECT_PATH/obj/local/armeabi -dump foo.txt</div><div class="line"></div><div class="line">```  </div><div class="line"></div><div class="line">### 2、使用arm-linux-androideabi-addr2line  </div><div class="line"> </div><div class="line">arm-linux-androideabi-addr2line和arm-linux-androideabi-objdump工具需要根据目标机器不同的CPU结构进行选择，位于ndk的交叉编译器工具链目录下。由于我们是Android平台，arm架构，选择arm-linux-androidabi-4.9下的工具即可，这两个工具均位于目录:</div></pre></td></tr></table></figure>
 <p>$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">addr2line用于将地址转换为文件名称和行号，如果没有地址指定，将从stdin读取。通过addrline -h获得各个参数的含义:</div></pre></td></tr></table></figure>
-<p>arm-linux-androideabi-addr2line -h</p>
-<p>The options are:<br>
-@<file>                Read options from <file><br>
--a --addresses         Show addresses<br>
--b --target=<bfdname>  Set the binary file format<br>
--e --exe=<executable>  Set the input file name (default is a.out)<br>
--i --inlines           Unwind inlined functions<br>
--j --section=<name>    Read section-relative offsets instead of addresses<br>
--p --pretty-print      Make the output easier to read for humans<br>
--s --basenames         Strip directory names<br>
--f --functions         Show function names<br>
--C --demangle[=style]  Demangle function names<br>
--h --help              Display this information<br>
--v --version           Display the program’s version</name></executable></bfdname></file></file></p>
+<p>arm-linux-androideabi-addr2line -h  </p>
+<p>The options are:<br>  @<file>                Read options from <file><br>  -a –addresses         Show addresses<br>  -b –target=<bfdname>  Set the binary file format<br>  -e –exe=<executable>  Set the input file name (default is a.out)<br>  -i –inlines           Unwind inlined functions<br>  -j –section=<name>    Read section-relative offsets instead of addresses<br>  -p –pretty-print      Make the output easier to read for humans<br>  -s –basenames         Strip directory names<br>  -f –functions         Show function names<br>  -C –demangle[=style]  Demangle function names<br>  -h –help              Display this information<br>  -v –version           Display the program’s version</name></executable></bfdname></file></file></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">一般用-C选项还原函数名称，-f选项展示函数名称，-e选项指定input file，使用范例如下,0x2c015d为令程序崩溃的汇编指令地址:  </div><div class="line">  </div><div class="line">```  </div><div class="line">./arm-linux-androideabi-addr2line -C -f -e  /Users/lilycai/git_project/hardware_longlink/librarys/hw_longlink_prj/obj/local/armeabi/libhwnetcore.so 0x2c015d  </div><div class="line"></div><div class="line">onStatisticsCallBack(StatisticsValue, std::string, std::string)</div><div class="line">/Users/lilycai/git_project/hardware_longlink/librarys/hw_longlink_prj/jni/Java2C.cpp:177 (discriminator 4)</div><div class="line"></div><div class="line">``` </div><div class="line"> </div><div class="line">如果不使用-C选项，得到的解析结果就是</div></pre></td></tr></table></figure>
-<p>_Z20onStatisticsCallBack15StatisticsValueSsSs<br>
-/Users/lilycai/git_project/hardware_longlink/librarys/hw_longlink_prj/jni/Java2C.cpp:177 (discriminator 4)</p>
+<p>_Z20onStatisticsCallBack15StatisticsValueSsSs<br>/Users/lilycai/git_project/hardware_longlink/librarys/hw_longlink_prj/jni/Java2C.cpp:177 (discriminator 4)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 3、使用arm-linux-androideabi-objdump  </div><div class="line">  </div><div class="line">arm-linux-androideabi-objdump与arm-linux-androideabi-addr2line位于同一目录下，用来从二进制文件中展示信息。使用objdump能够定位到出错的函数信息。使用方式为:</div></pre></td></tr></table></figure>
-<p>./arm-linux-androideabi-objdump &lt;option(s)&gt; &lt;file(s)&gt;</p>
+<p>./arm-linux-androideabi-objdump <option(s)> <file(s)></file(s)></option(s)></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">可选参数为:</div><div class="line"></div><div class="line">```  </div><div class="line"> At least one of the following switches must be given:</div><div class="line">  -a, --archive-headers    Display archive header information</div><div class="line">  -f, --file-headers       Display the contents of the overall file header</div><div class="line">  -p, --private-headers    Display object format specific file header contents</div><div class="line">  -P, --private=OPT,OPT... Display object format specific contents</div><div class="line">  -h, --[section-]headers  Display the contents of the section headers</div><div class="line">  -x, --all-headers        Display the contents of all headers</div><div class="line">  -d, --disassemble        Display assembler contents of executable sections</div><div class="line">  -D, --disassemble-all    Display assembler contents of all sections</div><div class="line">  -S, --source             Intermix source code with disassembly</div><div class="line">  -s, --full-contents      Display the full contents of all sections requested</div><div class="line">  -g, --debugging          Display debug information in object file</div><div class="line">  -e, --debugging-tags     Display debug information using ctags style</div><div class="line">  -G, --stabs              Display (in raw form) any STABS info in the file</div><div class="line">  -W[lLiaprmfFsoRt] or</div><div class="line">  --dwarf[=rawline,=decodedline,=info,=abbrev,=pubnames,=aranges,=macro,=frames,</div><div class="line">          =frames-interp,=str,=loc,=Ranges,=pubtypes,</div><div class="line">          =gdb_index,=trace_info,=trace_abbrev,=trace_aranges,</div><div class="line">          =addr,=cu_index]</div><div class="line">                           Display DWARF info in the file</div><div class="line">  -t, --syms               Display the contents of the symbol table(s)</div><div class="line">  -T, --dynamic-syms       Display the contents of the dynamic symbol table</div><div class="line">  -r, --reloc              Display the relocation entries in the file</div><div class="line">  -R, --dynamic-reloc      Display the dynamic relocation entries in the file</div><div class="line">  @&lt;file&gt;                  Read options from &lt;file&gt;</div><div class="line">  -v, --version            Display this program&apos;s version number</div><div class="line">  -i, --info               List object formats and architectures supported</div><div class="line">  -H, --help               Display this information</div><div class="line">  </div><div class="line">``` </div><div class="line"> </div><div class="line">其中-d选项用于展示可执行部分的汇编程序内容,-D展示全部的汇编程序内容，-x选项用于显示所有header的内容，-S选项显示源代码。使用范例如下，使用的so为obj下面的so:</div></pre></td></tr></table></figure>
-<p>./arm-linux-androideabi-objdump -dx /Users/lily/prj/obj/local/armeabi/libhwnetcore.so &gt; /Users/lily/prj/obj/local/armeabi/dxobjdump.txt</p>
+<p>./arm-linux-androideabi-objdump -dx /Users/lily/prj/obj/local/armeabi/libhwnetcore.so &gt; /Users/lily/prj/obj/local/armeabi/dxobjdump.txt </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">再看一下 0x2c015d这个地址，搜索2c015d，可以看到对应的函数为onStatisticsCallBack</div></pre></td></tr></table></figure>
-<p>002bffe4 &lt;_Z20onStatisticsCallBack15StatisticsValueSsSs&gt;:<br>
-…<br>
-2c015c:	f043 fa92 	bl	303684 &lt;__aeabi_llsl+0x2231c&gt;<br>
-…</p>
+<p>002bffe4 <_z20onstatisticscallback15statisticsvaluessss>:<br>…<br>2c015c:    f043 fa92     bl    303684 <__aeabi_llsl+0x2231c><br>…</__aeabi_llsl+0x2231c></_z20onstatisticscallback15statisticsvaluessss></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">使用-S -D耗时会多一些:</div></pre></td></tr></table></figure>
 <p>./arm-linux-androideabi-objdump -S -D /Users/lily/prj/obj/local/armeabi/libhwnetcore.so &gt; /Users/lily/prj/obj/local/armeabi/SDobjdump.txt</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">## 附录     </div><div class="line">  </div><div class="line">从ndk r11开始，Android NDK已经废弃了gcc，Android默认使用clang/llvm, gcc只支持到4.9，但由于google的libc++库还不完善，所以gcc还会继续保留一段时间。    </div><div class="line"></div><div class="line">要想使用ndk-build命令或NDK，需要安装 GNU Make 3.81 或更新版本，通过下列命令可以看到GNU Make 3.81已安装。</div></pre></td></tr></table></figure>
-<p>gnumake --version<br>
-GNU Make 3.81<br>
-Copyright © 2006  Free Software Foundation, Inc.<br>
-This is free software; see the source for copying conditions.<br>
-There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A<br>
-PARTICULAR PURPOSE.</p>
+<p>gnumake –version<br>GNU Make 3.81<br>Copyright (C) 2006  Free Software Foundation, Inc.<br>This is free software; see the source for copying conditions.<br>There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A<br>PARTICULAR PURPOSE.</p>
 <p>This program built for i386-apple-darwin11.3.0</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 1、ndk-build 常用参数  </div><div class="line"> </div><div class="line">ndk-build 文件是 Android NDK r4 中引入的一个 shell 脚本。其用途是调用正确的 NDK 构建脚本。可通过内部构建和从命令行调用两种方式使用ndk-build。  </div><div class="line"></div><div class="line">(1)内部构建  </div><div class="line">运行 ndk-build 脚本相当于运行以下命令：</div></pre></td></tr></table></figure>
-<p>$GNUMAKE -f <ndk>/build/core/build-local.mk<br>
-<parameters></parameters></ndk></p>
+<p>$GNUMAKE -f <ndk>/build/core/build-local.mk</ndk></p>
+<parameters>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$GNUMAKE 指向 GNU Make 3.81 或更新版本，&lt;ndk&gt; 指向 NDK 安装目录。 可以使用此信息从其他 shell 脚本甚至自己的 Make 文件调用 ndk-build。  </div><div class="line"></div><div class="line">范例: 我的ndk目录位于/Users/lilycai/Library/Android/sdk/ndk-bundle/,进入到proj目录后，调用如下命令即可进行编译</div></pre></td></tr></table></figure>
 <p>gnumake -f /Users/lilycai/Library/Android/sdk/ndk-bundle/build/core/build-local.mk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(2)使用命令行  </div><div class="line">  </div><div class="line">ndk-build 的所有参数将直接传递到运行 NDK 构建脚本的底层 GNU make。</div></pre></td></tr></table></figure>
-<p>ndk-build <option></option></p>
+<p>ndk-build <option>  </option></p>
 <p>clean 移除之前生成的任意二进制文件</p>
-<p>V=1  启动构建，并显示构建命令</p>
-<p>-B 强制执行完全的重新构建</p>
-<p>NDK_DEBUG=1 强制执行可调试版构建(这个参数很有用，启用这个参数obj下可保留符号表)</p>
-<p>NDK_DEBUG=0 强制执行发布</p>
-<p>NDK_HOST_32BIT = 1 始终使用32位模式下的工具链(针对某些附带64和32位两个版本的工具链，64位的工具速度更快，能处理更大的程序，更好地利用主机资源)</p>
-<p>-C <project> 构建位于<project>的项目路径的原生代码(可不cd切换到项目路径)</project></project></p>
+<p>V=1  启动构建，并显示构建命令  </p>
+<p>-B 强制执行完全的重新构建  </p>
+<p>NDK_DEBUG=1 强制执行可调试版构建(这个参数很有用，启用这个参数obj下可保留符号表)  </p>
+<p>NDK_DEBUG=0 强制执行发布  </p>
+<p>NDK_HOST_32BIT = 1 始终使用32位模式下的工具链(针对某些附带64和32位两个版本的工具链，64位的工具速度更快，能处理更大的程序，更好地利用主机资源)    </p>
+<p>-C <project> 构建位于<project>的项目路径的原生代码(可不cd切换到项目路径) </project></project></p>
 <p>-jX X为线程数，ndk-build默认为单线程编译，一般为CPU核数-1</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">### 2、指定编译的toolchain  </div><div class="line"> </div><div class="line">在Application.mk中添加</div></pre></td></tr></table></figure>
 <p>NDK_TOOLCHAIN_VERSION = 4.9</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">未指定工具链之前，使用ndk默认的工具链，编译log如下所示</div></pre></td></tr></table></figure>
-<p>/Users/lilycai/Library/Android/sdk/ndk-bundle/ndk-build -j8 NDK_DEBUG=1<br>
-[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C.cpp<br>
-[armeabi] Compile++ thumb: hwnetcore &lt;= CallStack.cpp<br>
-[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C_LogLogic.cpp<br>
-[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C_Xlog.cpp<br>
-[armeabi] Prebuilt       : libstlport_shared.so &lt;= <ndk>/sources/cxx-stl/stlport/libs/armeabi/<br>
-[armeabi] Gdbserver      : [arm-linux-androideabi] libs/armeabi/gdbserver<br>
-[armeabi] Gdbsetup       : libs/armeabi/gdb.setup</ndk></p>
+<p>/Users/lilycai/Library/Android/sdk/ndk-bundle/ndk-build -j8 NDK_DEBUG=1<br>[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C.cpp<br>[armeabi] Compile++ thumb: hwnetcore &lt;= CallStack.cpp<br>[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C_LogLogic.cpp<br>[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C_Xlog.cpp<br>[armeabi] Prebuilt       : libstlport_shared.so &lt;= <ndk>/sources/cxx-stl/stlport/libs/armeabi/<br>[armeabi] Gdbserver      : [arm-linux-androideabi] libs/armeabi/gdbserver<br>[armeabi] Gdbsetup       : libs/armeabi/gdb.setup </ndk></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">指定了4.9的工具链以后，编译log如下所示，可以清楚地看到使用的工具链</div></pre></td></tr></table></figure>
-<p>ndk-build -j4 NDK_DEBUG=1</p>
-<p>[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C.cpp<br>
-[armeabi] Compile++ thumb: hwnetcore &lt;= CallStack.cpp<br>
-[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C_LogLogic.cpp<br>
-[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C_Xlog.cpp<br>
-[armeabi] Prebuilt       : libstlport_shared.so &lt;= <ndk>/sources/cxx-stl/stlport/libs/armeabi/<br>
-[armeabi] Gdbserver      : [arm-linux-androideabi-4.9] libs/armeabi/gdbserver<br>
-[armeabi] Gdbsetup       : libs/armeabi/gdb.setup</ndk></p>
+<p>ndk-build -j4 NDK_DEBUG=1  </p>
+<p>[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C.cpp<br>[armeabi] Compile++ thumb: hwnetcore &lt;= CallStack.cpp<br>[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C_LogLogic.cpp<br>[armeabi] Compile++ thumb: hwnetcore &lt;= Java2C_Xlog.cpp<br>[armeabi] Prebuilt       : libstlport_shared.so &lt;= <ndk>/sources/cxx-stl/stlport/libs/armeabi/<br>[armeabi] Gdbserver      : [arm-linux-androideabi-4.9] libs/armeabi/gdbserver<br>[armeabi] Gdbsetup       : libs/armeabi/gdb.setup</ndk></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 3、与NDK_DEBUG = 1相同效果的debug编译选项    </div><div class="line">  </div><div class="line">在Application.mk中进行配置</div></pre></td></tr></table></figure>
 <p>APP_OPTIM := debug</p>
-<pre><code>
-参考文献:   
-1、[google官方ndk-build](https://developer.android.google.cn/ndk/guides/ndk-build.html?hl=zh-cn)   
-2、[google官方ndk-stack](https://developer.android.com/ndk/guides/ndk-stack.html)    
-3、[Android 开发中常见 Crash 的情况](https://www.geekhub.cn/a/294.html)  
-4、[ABI百度百科](https://baike.baidu.com/item/ABI/10912305#viewPageContent)   
-5、[Android平台Native代码的崩溃捕获机制及实现](http://km.oa.com/group/18954/articles/show/307888)
-</code></pre>
-]]></content>
+<p>``` </p>
+<p>参考文献:<br>1、<a href="https://developer.android.google.cn/ndk/guides/ndk-build.html?hl=zh-cn" target="_blank" rel="external">google官方ndk-build</a><br>2、<a href="https://developer.android.com/ndk/guides/ndk-stack.html" target="_blank" rel="external">google官方ndk-stack</a><br>3、<a href="https://www.geekhub.cn/a/294.html" target="_blank" rel="external">Android 开发中常见 Crash 的情况</a><br>4、<a href="https://baike.baidu.com/item/ABI/10912305#viewPageContent" target="_blank" rel="external">ABI百度百科</a><br>5、<a href="http://km.oa.com/group/18954/articles/show/307888" target="_blank" rel="external">Android平台Native代码的崩溃捕获机制及实现</a></p>
+</parameters>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;小结一下native crash捕获的原理以及常用的查看crash堆栈方法。附录为常见的ndk相关命令。&lt;/p&gt;
+      &lt;p&gt;小结一下native crash捕获的原理以及常用的查看crash堆栈方法。附录为常见的ndk相关命令。 &lt;/p&gt;
     
     </summary>
     
@@ -187,8 +110,7 @@ PARTICULAR PURPOSE.</p>
     
     <content type="html"><![CDATA[<p>adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。</p>
 <a id="more"></a>
-<h2 id="基础脚本"><a class="header-anchor" href="#基础脚本">¶</a>基础脚本:</h2>
-<p>1、启动adb服务</p>
+<h2 id="基础脚本"><a href="#基础脚本" class="headerlink" title="基础脚本:"></a>基础脚本:</h2><p>1、启动adb服务</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb start-server</div></pre></td></tr></table></figure>
 <p>2、终止adb服务</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb kill-server</div></pre></td></tr></table></figure>
@@ -204,8 +126,7 @@ PARTICULAR PURPOSE.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb remount</div></pre></td></tr></table></figure>
 <p>8、重启设备,可选参数进入bootloader(刷机模式)或recovery(恢复模式)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb reboot [bootloader|recovery]</div></pre></td></tr></table></figure>
-<h2 id="apk相关"><a class="header-anchor" href="#apk相关">¶</a>apk相关:</h2>
-<p>1、安装apk</p>
+<h2 id="apk相关"><a href="#apk相关" class="headerlink" title="apk相关:"></a>apk相关:</h2><p>1、安装apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb install test.apk</div><div class="line">    -r 覆盖安装，保留数据和缓存文件</div><div class="line">    -d 解决低版本version问题</div><div class="line">    -s 安装apk到sd卡</div></pre></td></tr></table></figure>
 <p>2、卸载apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb uninstall -k &lt;package_name&gt;</div></pre></td></tr></table></figure>
@@ -214,8 +135,7 @@ PARTICULAR PURPOSE.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys package &lt;package_name&gt;</div></pre></td></tr></table></figure>
 <p>4、查看app的路径</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell pm path &lt;package_name&gt;</div></pre></td></tr></table></figure>
-<p>查看了一个普通app的路径，如下，位于data/app下面的普通app<br>
-package:/data/app/com.tencent.test-1/base.apk</p>
+<p>查看了一个普通app的路径，如下，位于data/app下面的普通app<br>package:/data/app/com.tencent.test-1/base.apk</p>
 <p>5、查看apk的版本信息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys package &lt;package_name&gt; | grep version</div></pre></td></tr></table></figure>
 <p>如果你得到的是下图的两个version版本，则为系统app,下面是系统app本身的版本，上面是升级之后的系统app的版本信息</p>
@@ -235,8 +155,7 @@ package:/data/app/com.tencent.test-1/base.apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am broadcast -a &quot;android.intent.action.AdupsFota.WriteCommandReceiver&quot;</div></pre></td></tr></table></figure>
 <p>广播可以带上不同类型的参数,–es为string参数类型,–ei为int参数类型,–ez为boolean参数类型</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am broadcast -a &quot;android.intent.action.AdupsFota.WriteCommandReceiver&quot; --es test_string &quot;this is test string&quot;</div></pre></td></tr></table></figure>
-<p>10、查看某个app的进程相关信息<br>
-10.1</p>
+<p>10、查看某个app的进程相关信息<br>10.1</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell ps &lt;package_name|PID&gt;</div></pre></td></tr></table></figure>
 <p>例如</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb shell ps com.ma.app:push</div><div class="line"></div><div class="line">USER      PID   PPID  VSIZE  RSS   WCHAN            PC  NAME</div><div class="line">u0_a116   5483  304   1776564 55112 sys_epoll_ 00000000 S com.ma.app:push</div></pre></td></tr></table></figure>
@@ -253,21 +172,18 @@ package:/data/app/com.tencent.test-1/base.apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell getprop | grep heapgrowthlimit</div></pre></td></tr></table></figure>
 <p>得到的结果为128M: [dalvik.vm.heapgrowthlimit]: [128m]</p>
 <p>这就是说Dalvik Heap size的最大值超过了128M，就很可能发生OOM</p>
-<p>14、获取单个应用的电量消耗信息<br>
-Battery Historian是Android 5.0开始引入的，下面的命令为获取单个app的电量消耗信息，获取系统耗电信息见下节</p>
+<p>14、获取单个应用的电量消耗信息<br>Battery Historian是Android 5.0开始引入的，下面的命令为获取单个app的电量消耗信息，获取系统耗电信息见下节</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys batterystats &gt; &lt;package_name&gt; &gt; xxx.txt</div></pre></td></tr></table></figure>
 <p>上面的电量信息为原始数据，可以通过google编写的historian.py脚本把数据信息转换为可读性很好的html文件,类似TraceView生成的列表数据，之前在做app性能优化的时候起了很大的作用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python historian.py xxx.txt &gt; xxx.html</div></pre></td></tr></table></figure>
 <p>15、跑monkey,个人很喜欢这个命令，运行过程中，应用程序会不断切换画面，按照选定的不同级别反馈信息，还可以看到执行过程报告和生成的事件。测试应用的稳定性时很实用。 现在studio也有了monkeyrunner的tool</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">adb shell monkey -v -p &lt;package_name&gt; 500</div><div class="line">       -p 对象包</div><div class="line">       -v 反馈信息级别</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">:Monkey: seed=1493061025112 count=500</div><div class="line">:AllowPackage: com.tencent.mm.app:push</div><div class="line">:IncludeCategory: android.intent.category.LAUNCHER</div><div class="line">:IncludeCategory: android.intent.category.MONKEY</div><div class="line">** No activities found to run, monkey aborted.</div></pre></td></tr></table></figure>
-<h2 id="系统相关"><a class="header-anchor" href="#系统相关">¶</a>系统相关</h2>
-<p>1、查看设备名称，豌豆荚等应用就是通过此来获得设备的名称</p>
+<h2 id="系统相关"><a href="#系统相关" class="headerlink" title="系统相关"></a>系统相关</h2><p>1、查看设备名称，豌豆荚等应用就是通过此来获得设备的名称</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /system/build.prop/</div></pre></td></tr></table></figure>
 <p>结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ro.product.model=MI 3W</div><div class="line">ro.product.brand=Xiaomi</div></pre></td></tr></table></figure>
-<p>2、查看手机分辨率有两种方法，第二种方法最为简洁<br>
-2.1</p>
+<p>2、查看手机分辨率有两种方法，第二种方法最为简洁<br>2.1</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys window | grep Surface</div></pre></td></tr></table></figure>
 <p>grep是一个非常有用的参数,具体含义和用法大家自行google一下,试验结果为1080 * 1920:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Surface: shown=false layer=21000 alpha=1.0 rect=(0.0,0.0) 1080.0 x 1920.0</div></pre></td></tr></table></figure>
@@ -289,7 +205,7 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">adb [-d|-e|-s &lt;serial Number&gt;] &lt;command&gt;</div><div class="line"></div><div class="line">　　 -d:真机(多个设备中只有一个真机时适用)</div><div class="line"></div><div class="line">　　 -e:模拟器(多个设备中只有一个模拟器时适用)</div><div class="line"></div><div class="line">　　 -s:序列号</div></pre></td></tr></table></figure>
 <p>假如有两个真机连接了我的电脑，adb devices获取到的数据如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">List of devices attached</div><div class="line">1b71651	device</div><div class="line">12sdfsd   device</div></pre></td></tr></table></figure>
-<p>进入1b71651设备的命令为:</p>
+<p>进入1b71651设备的命令为: </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb -s 1b71651 shell</div></pre></td></tr></table></figure>
 <p>7、查看wifi密码(需要root权限)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat data/misc/wifi/*.conf</div></pre></td></tr></table></figure>
@@ -317,7 +233,7 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">VSS – Virtual Set Size 虚拟耗用内存（包含共享库占用的内存）</div><div class="line">RSS – Resident Set Size 实际使用物理内存（包含共享库占用的内存）</div><div class="line">PSS – Proportional Set Size 实际使用的物理内存（比例分配共享库占用的内存）</div><div class="line">USS – Unique Set Size 进程独自占用的物理内存（不包含共享库占用的内存）</div></pre></td></tr></table></figure>
 <p>11.3 查看设备上进程的cpu和内存占用情况</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell top</div></pre></td></tr></table></figure>
-<p>12、查看系统耗电情况</p>
+<p>12、查看系统耗电情况  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys batterystats &gt; xxx.txt</div></pre></td></tr></table></figure>
 <p>13、查看系统设置的闹钟</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys alarm</div></pre></td></tr></table></figure>
@@ -325,19 +241,15 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys power</div></pre></td></tr></table></figure>
 <p>返回结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Wake Locks: size=2</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;AudioMix&apos; (uid=1013, pid=236, ws=WorkSource&#123;10018&#125;)</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;Android.media.MediaPlayer&apos; ON_AFTER_RELEASE (uid=10018, pid=24023, ws=null)</div></pre></td></tr></table></figure>
-<p>15、系统时间相关<br>
-15.1<br>
-获取系统时间</p>
+<p>15、系统时间相关<br>15.1<br>获取系统时间</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date</div><div class="line">Thu May  4 20:34:29 CST 2017</div></pre></td></tr></table></figure>
-<p>15.2<br>
-修改系统时间(需要root权限)</p>
+<p>15.2<br>修改系统时间(需要root权限)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb root</div><div class="line">adb date -s &quot;yyyymmdd.[[[hh]mm]ss]&quot;</div></pre></td></tr></table></figure>
 <p>上面的参数看起来有点复杂，其实就是除了年月日之外，只有两个参数代表的是秒,再加两个参数代码的是分钟，再加两个参数是小时。</p>
 <p>例:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.03&quot;</div><div class="line">Thu May  4 00:00:03 CST 2017</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.0330&quot;</div><div class="line">Thu May  4 00:03:30 CST 2017</div></pre></td></tr></table></figure>
-<h2 id="文件操作相关"><a class="header-anchor" href="#文件操作相关">¶</a>文件操作相关:</h2>
-<p>1、拷贝文件/目录到设备</p>
+<h2 id="文件操作相关"><a href="#文件操作相关" class="headerlink" title="文件操作相关:"></a>文件操作相关:</h2><p>1、拷贝文件/目录到设备</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb push &lt;local&gt;...&lt;remote&gt;</div></pre></td></tr></table></figure>
 <p>2、从设备拷贝文件/目录，-a参数保留了文件的时间戳和模式</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb pull [-a] &lt;remote&gt;...&lt;local&gt;</div></pre></td></tr></table></figure>
@@ -363,12 +275,10 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell mkdir path/folder</div></pre></td></tr></table></figure>
 <p>12、设置文件最高读写权限</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell chmod 777 filename</div></pre></td></tr></table></figure>
-<p>13、手机未root 查看data/data/某一app文件信息</p>
-<p>笔者的小米3没有root，但是又想方便地查看data/data/目录下的一些文件，直接进入data会提示没有权限,查看的方式为进入data/data/后,运行下面的命令，就能直接进入你应用的包下了,可通用cp或者mv拷贝或移动到sdcard目录进行其他操作</p>
+<p>13、手机未root 查看data/data/某一app文件信息  </p>
+<p>  笔者的小米3没有root，但是又想方便地查看data/data/目录下的一些文件，直接进入data会提示没有权限,查看的方式为进入data/data/后,运行下面的命令，就能直接进入你应用的包下了,可通用cp或者mv拷贝或移动到sdcard目录进行其他操作</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">run-as package_name</div></pre></td></tr></table></figure>
-<h2 id="数据库相关"><a class="header-anchor" href="#数据库相关">¶</a>数据库相关</h2>
-<p>数据库的操作和今天的主题关系不大，增删改查操作不再列举。但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>
-1、操作db</p>
+<h2 id="数据库相关"><a href="#数据库相关" class="headerlink" title="数据库相关"></a>数据库相关</h2><p>数据库的操作和今天的主题关系不大，增删改查操作不再列举。但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>1、操作db</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite3 test.db</div></pre></td></tr></table></figure>
 <p>2、对db使用sqlite3命令后，通过.help查看各种使用指导</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.help</div></pre></td></tr></table></figure>
@@ -401,43 +311,32 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
     <published>2017-03-26T04:42:23.000Z</published>
     <updated>2017-03-28T05:38:51.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="硬装的水路改造有很大的学问-需要提前做好功课"><a class="header-anchor" href="#硬装的水路改造有很大的学问-需要提前做好功课">¶</a>硬装的水路改造有很大的学问，需要提前做好功课。</h3>
-<a id="more"></a>
+    <content type="html"><![CDATA[<h3 id="硬装的水路改造有很大的学问，需要提前做好功课。"><a href="#硬装的水路改造有很大的学问，需要提前做好功课。" class="headerlink" title="硬装的水路改造有很大的学问，需要提前做好功课。"></a>硬装的水路改造有很大的学问，需要提前做好功课。</h3><a id="more"></a>
 <ol>
-<li>
-<p>硬装前无论是新房还是二手房，尤其是二手房翻新，<strong>装修前</strong>都需要<strong>先做闭水测试</strong>，装修后出现漏水很麻烦，叫上物业一起进行，确保装修前无问题，有问题马上让物业负责解决;根据各地的水质情况，看是否需要安装<strong>入户过滤器</strong>，和物业确认入户过滤器是否可放置在楼道，如果不可以，可放在家庭用水总入口处</p>
-</li>
-<li>
-<p>日常家庭用水很多需要冷热同用，比如热水器、洗碗池、洗手池等。水管的冷热要分离，为了便于日后检查和维修区分，可通过对<strong>冷热水管路进行分色套管处理</strong>，所有的热水管均为红色，冷水均为蓝色。如果难以分色，也可以<strong>按照方向区分</strong>，如左边热水，右边冷水</p>
-</li>
-<li>
-<p>水管的材料，一些老式住宅中还是<strong>镀锌管</strong>，长期使用后容易产生锈蚀，造成水中重金属含量过高，严重危害人体健康；<strong>含铅的PVC管</strong>也同样因危害健康被禁止。并非所有的水管都是冷热两用的，一般的<strong>PPR管、PE管、铜管都是冷热两用</strong>的。PVC管不能用于热水，因此常用于下水道。</p>
-</li>
-<li>
-<p>水路改造时，管线和接头必须是垂直相接的,否则会造成弯头连接的两遍管线壁厚不一样，使用中可能会因为受力不均匀，在水压下出现渗漏。尤其是靠近电路的水管，防漏和密封性必须保证，否则万一漏水，会引发触电，十分危险。<br>
-<img src="http://images.gzmama.com/data/attachment/album/201703/06/142613m1dmljhzjcljd10h.jpg" alt="管线垂直相接"></p>
-</li>
-<li>
-<p>水路改造常用尺寸</p>
-<ul>
-<li>淋浴：冷热水管中心间距150mm，距地1000-1200mm</li>
+<li>硬装前无论是新房还是二手房，尤其是二手房翻新，<strong>装修前</strong>都需要<strong>先做闭水测试</strong>，装修后出现漏水很麻烦，叫上物业一起进行，确保装修前无问题，有问题马上让物业负责解决;根据各地的水质情况，看是否需要安装<strong>入户过滤器</strong>，和物业确认入户过滤器是否可放置在楼道，如果不可以，可放在家庭用水总入口处</li>
+<li>日常家庭用水很多需要冷热同用，比如热水器、洗碗池、洗手池等。水管的冷热要分离，为了便于日后检查和维修区分，可通过对<strong>冷热水管路进行分色套管处理</strong>，所有的热水管均为红色，冷水均为蓝色。如果难以分色，也可以<strong>按照方向区分</strong>，如左边热水，右边冷水</li>
+<li>水管的材料，一些老式住宅中还是<strong>镀锌管</strong>，长期使用后容易产生锈蚀，造成水中重金属含量过高，严重危害人体健康；<strong>含铅的PVC管</strong>也同样因危害健康被禁止。并非所有的水管都是冷热两用的，一般的<strong>PPR管、PE管、铜管都是冷热两用</strong>的。PVC管不能用于热水，因此常用于下水道。</li>
+<li>水路改造时，管线和接头必须是垂直相接的,否则会造成弯头连接的两遍管线壁厚不一样，使用中可能会因为受力不均匀，在水压下出现渗漏。尤其是靠近电路的水管，防漏和密封性必须保证，否则万一漏水，会引发触电，十分危险。<br> <img src="http://images.gzmama.com/data/attachment/album/201703/06/142613m1dmljhzjcljd10h.jpg" alt="管线垂直相接"></li>
+<li>水路改造常用尺寸<ul>
+<li>淋浴：冷热水管中心间距150mm，距地1000-1200mm<ul>
 <li>上翻盖洗衣机：水口高度1200mm</li>
 <li>电热水器：给水口高度=层净高-电热水器固定上方距顶距离-电热水器直径-200mm</li>
-<li>水盆、菜盆：给水口高度450-550mm</li>
+</ul>
+</li>
+<li>水盆、菜盆：给水口高度450-550mm<ul>
 <li>马桶：给水口距地200mm，距马桶中心一般靠左250mm</li>
+</ul>
+</li>
 <li>墩布池：给水口高出池本身200mm为宜</li>
 </ul>
 </li>
-<li>
-<p>水路改造-验收 打压测试，并非越高越好</p>
+<li><p>水路改造-验收 打压测试，并非越高越好</p>
 <ul>
-<li>水路改造完成后，为了避免漏水，必须进行<strong>打压测试</strong>。许多业主认为打压越高越好，这样可以测出水管和水路的承受能力,其实并<strong>不是打压越高越好</strong>，打压压力太高可能会超出水管的承压极限，反而会损伤管道，减少寿命，导致以后出现漏水。正常压力测试在6-8kg为最佳，实验压力不应该小于0.6mpa，时间为20-30分钟。<br>
-<img src="http://images.gzmama.com/data/attachment/album/201703/06/142614n8fpfnlnl11tke1z.jpg" alt="打压测试"></li>
+<li>水路改造完成后，为了避免漏水，必须进行<strong>打压测试</strong>。许多业主认为打压越高越好，这样可以测出水管和水路的承受能力,其实并<strong>不是打压越高越好</strong>，打压压力太高可能会超出水管的承压极限，反而会损伤管道，减少寿命，导致以后出现漏水。正常压力测试在6-8kg为最佳，实验压力不应该小于0.6mpa，时间为20-30分钟。<br><img src="http://images.gzmama.com/data/attachment/album/201703/06/142614n8fpfnlnl11tke1z.jpg" alt="打压测试"></li>
 <li><strong>多次打压测试</strong>，效果才好。水路测试并非只有一次，正确的试水方法是：试压前关闭水电阀门，进行室内管路系统打压；将试压管道末端封堵慢慢注水，将管道内气体排出，充满水后进行密封检查；加压采用手动泵或者电动泵缓慢升压，升至规定试验压力后，停止加压，观察接头部位是否有渗水现象；稳压后，半小时内的压力降不超过0.05MPa为合格。</li>
-<li><strong>绘制水路图</strong>，维修有保障。做到水路改造的房子最好能重新绘制水路图，因为施工时，很多时间由于各种原因无法按照设计图100%实施，所以必须按照实际水路重新制图，以免给日后维修增加难度。<br>
-<img src="http://images.gzmama.com/data/attachment/album/201703/06/14261360eg6pyp9zepyyzh.jpg" alt="绘制水路图"></li>
+<li><p><strong>绘制水路图</strong>，维修有保障。做到水路改造的房子最好能重新绘制水路图，因为施工时，很多时间由于各种原因无法按照设计图100%实施，所以必须按照实际水路重新制图，以免给日后维修增加难度。<br><img src="http://images.gzmama.com/data/attachment/album/201703/06/14261360eg6pyp9zepyyzh.jpg" alt="绘制水路图"></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h4></li>
 </ul>
-<h4 id="参考"><a class="header-anchor" href="#参考">¶</a>参考:</h4>
 <ol>
 <li><a href="http://www.gzmama.com/forum.php?mod=viewthread&amp;tid=4855903" target="_blank" rel="external">妈妈网</a></li>
 </ol>
@@ -447,7 +346,7 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
     
     <summary type="html">
     
-      &lt;h3 id=&quot;硬装的水路改造有很大的学问-需要提前做好功课&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#硬装的水路改造有很大的学问-需要提前做好功课&quot;&gt;¶&lt;/a&gt;硬装的水路改造有很大的学问，需要提前做好功课。&lt;/h3&gt;
+      &lt;h3 id=&quot;硬装的水路改造有很大的学问，需要提前做好功课。&quot;&gt;&lt;a href=&quot;#硬装的水路改造有很大的学问，需要提前做好功课。&quot; class=&quot;headerlink&quot; title=&quot;硬装的水路改造有很大的学问，需要提前做好功课。&quot;&gt;&lt;/a&gt;硬装的水路改造有很大的学问，需要提前做好功课。&lt;/h3&gt;
     
     </summary>
     
@@ -467,60 +366,49 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
     <published>2017-03-26T04:20:34.000Z</published>
     <updated>2017-08-01T08:10:08.000Z</updated>
     
-    <content type="html"><![CDATA[<p>插座的<strong>预留原则</strong>是：宁多勿少，免得添加电器时遇到插座不够用的尴尬。</p>
-<a id="more"></a>
+    <content type="html"><![CDATA[<p>插座的<strong>预留原则</strong>是：宁多勿少，免得添加电器时遇到插座不够用的尴尬。<br><a id="more"></a></p>
 <p>插座规划<strong>需要注意的问题</strong>以下几点：</p>
 <ul>
 <li>插座不够用，满地都是排插线</li>
 <li>开关被家具挡住，或者太高太低</li>
 <li>没留双控开关</li>
 </ul>
-<ul>
-<li></li>
-</ul>
-<p>根据我家户型的实际情况设计了开关和插座的数量,仅作为各位的参考，实际情况还要根据实际户型情况来做调整。</p>
-<h3 id="玄关"><a class="header-anchor" href="#玄关">¶</a>玄关</h3>
-<ul>
+<p>-<br>根据我家户型的实际情况设计了开关和插座的数量,仅作为各位的参考，实际情况还要根据实际户型情况来做调整。</p>
+<h3 id="玄关"><a href="#玄关" class="headerlink" title="玄关"></a>玄关</h3><ul>
 <li>插座:预留一个</li>
 <li>开关:与客厅开关处做双控</li>
 </ul>
-<h3 id="客厅"><a class="header-anchor" href="#客厅">¶</a>客厅</h3>
-<ul>
-<li>插座:
-<ol>
-<li>电视两个(包括电视机和机顶盒)</li>
+<h3 id="客厅"><a href="#客厅" class="headerlink" title="客厅"></a>客厅</h3><ul>
+<li>插座:<ol>
+<li>电视两个(包括电视机和机顶盒)<ol>
 <li>空调一个</li>
 <li>沙发两侧各一个(因户型而异，我家的户型要一侧留2个)</li>
 <li>预留1-2个</li>
 </ol>
 </li>
-<li>开关:
-<ol>
+</ol>
+</li>
+<li>开关:<ol>
 <li>吊灯双回路控制</li>
 <li>玄关灯双控</li>
 <li>装饰效果灯开关</li>
 </ol>
 </li>
 </ul>
-<h3 id="餐厅"><a class="header-anchor" href="#餐厅">¶</a>餐厅</h3>
-<ul>
-<li>插座：
-<ol>
+<h3 id="餐厅"><a href="#餐厅" class="headerlink" title="餐厅"></a>餐厅</h3><ul>
+<li>插座：<ol>
 <li>餐桌边2个</li>
 <li>预留1-2个</li>
 </ol>
 </li>
-<li>开关：
-<ol>
+<li>开关：<ol>
 <li>吊灯双回路控制</li>
 <li>装饰效果灯</li>
 </ol>
 </li>
 </ul>
-<h3 id="厨房"><a class="header-anchor" href="#厨房">¶</a>厨房</h3>
-<ul>
-<li>插座:
-<ol>
+<h3 id="厨房"><a href="#厨房" class="headerlink" title="厨房"></a>厨房</h3><ul>
+<li>插座:<ol>
 <li>抽油烟机1个(3孔带开关)</li>
 <li>炉灶下1个</li>
 <li>水槽下1个(广州水质比较差，除了在总入水口安装入户过滤器之外，需要在水槽下安装净水器)</li>
@@ -530,25 +418,21 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <li>微波炉、烤箱、洗碗机、洗菜机等电器按需添加插座和开关</li>
 </ol>
 </li>
-<li>开关:
-<ol>
+<li>开关:<ol>
 <li>吸顶灯</li>
 <li>操作台灯</li>
 </ol>
 </li>
 </ul>
-<h3 id="洗手间"><a class="header-anchor" href="#洗手间">¶</a>洗手间</h3>
-<ul>
-<li>插座:
-<ol>
+<h3 id="洗手间"><a href="#洗手间" class="headerlink" title="洗手间"></a>洗手间</h3><ul>
+<li>插座:<ol>
 <li>吹风机1个(3孔带开关或普通插座无开关)</li>
 <li>电热水器1个(3孔带开关)</li>
 <li>浴霸</li>
 <li>预留1-2个</li>
 </ol>
 </li>
-<li>开关:
-<ol>
+<li>开关:<ol>
 <li>镜前灯</li>
 <li>排风扇</li>
 <li>浴霸</li>
@@ -556,59 +440,48 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 </ol>
 </li>
 </ul>
-<h3 id="卧室"><a class="header-anchor" href="#卧室">¶</a>卧室</h3>
-<ul>
-<li>插座:
-<ol>
+<h3 id="卧室"><a href="#卧室" class="headerlink" title="卧室"></a>卧室</h3><ul>
+<li>插座:<ol>
 <li>床头两边各1个;预留1-2个</li>
 <li>电视2个</li>
 <li>空调1个</li>
 <li>电脑1个(带网线[根据实际需求])</li>
 </ol>
 </li>
-<li>开关:
-<ol>
+<li>开关:<ol>
 <li>双控或双回路控制(需控制家里所有的灯) 位于床头，方便控制</li>
 <li>吸顶灯</li>
-<li>装饰效果灯<br>
-根据我家的实际情况，次卧需要为孩子的电脑、台灯预留插座。</li>
+<li>装饰效果灯<br>根据我家的实际情况，次卧需要为孩子的电脑、台灯预留插座。</li>
 </ol>
 </li>
 </ul>
-<h3 id="书房"><a class="header-anchor" href="#书房">¶</a>书房</h3>
-<ul>
-<li>插座:
-<ol>
+<h3 id="书房"><a href="#书房" class="headerlink" title="书房"></a>书房</h3><ul>
+<li>插座:<ol>
 <li>电脑1个(3孔带开关)</li>
 <li>空调1个(3孔带开关)</li>
 <li>书桌1个 预留1-2个</li>
 </ol>
 </li>
-<li>开关:
-<ol>
+<li>开关:<ol>
 <li>吸顶灯</li>
 <li>电脑电视共享</li>
 </ol>
 </li>
 </ul>
-<h3 id="阳台"><a class="header-anchor" href="#阳台">¶</a>阳台</h3>
-<ul>
+<h3 id="阳台"><a href="#阳台" class="headerlink" title="阳台"></a>阳台</h3><ul>
 <li>插座: 洗衣机</li>
 <li>开关: 顶灯</li>
 </ul>
-<h4 id="插座的推荐安装位置"><a class="header-anchor" href="#插座的推荐安装位置">¶</a>插座的推荐安装位置</h4>
-<p><img src="http://image1.cdn.gzmama.com/data/attachment/forum/201703/06/153921dcd9dvnp9x9hchzh.jpg_thumb.w700" alt="插座安装位置"></p>
-<h4 id="市面上不错的插座位置"><a class="header-anchor" href="#市面上不错的插座位置">¶</a>市面上不错的插座位置</h4>
-<p><img src="http://image2.cdn.gzmama.com/data/attachment/forum/201703/06/153921522nv4cxq35vwqxf.jpg_thumb.w700" alt="合理插座"></p>
-<h4 id="参考"><a class="header-anchor" href="#参考">¶</a>参考:</h4>
-<ol>
+<h4 id="插座的推荐安装位置"><a href="#插座的推荐安装位置" class="headerlink" title="插座的推荐安装位置"></a>插座的推荐安装位置</h4><p><img src="http://image1.cdn.gzmama.com/data/attachment/forum/201703/06/153921dcd9dvnp9x9hchzh.jpg_thumb.w700" alt="插座安装位置"></p>
+<h4 id="市面上不错的插座位置"><a href="#市面上不错的插座位置" class="headerlink" title="市面上不错的插座位置"></a>市面上不错的插座位置</h4><p><img src="http://image2.cdn.gzmama.com/data/attachment/forum/201703/06/153921522nv4cxq35vwqxf.jpg_thumb.w700" alt="合理插座"></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h4><ol>
 <li><a href="http://www.gzmama.com/forum.php?mod=viewthread&amp;tid=4855927&amp;highlight=%E7%A1%AC%E8%A3%85" target="_blank" rel="external">妈妈网</a></li>
 </ol>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;插座的&lt;strong&gt;预留原则&lt;/strong&gt;是：宁多勿少，免得添加电器时遇到插座不够用的尴尬。&lt;/p&gt;
+      &lt;p&gt;插座的&lt;strong&gt;预留原则&lt;/strong&gt;是：宁多勿少，免得添加电器时遇到插座不够用的尴尬。&lt;br&gt;
     
     </summary>
     
@@ -628,26 +501,20 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
     <published>2017-03-19T10:14:54.000Z</published>
     <updated>2017-03-28T05:37:05.000Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<a id="more"></a>
-<h2 id="quick-start"><a class="header-anchor" href="#quick-start">¶</a>Quick Start</h2>
-<h3 id="create-a-new-post"><a class="header-anchor" href="#create-a-new-post">¶</a>Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="run-server"><a class="header-anchor" href="#run-server">¶</a>Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="generate-static-files"><a class="header-anchor" href="#generate-static-files">¶</a>Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="deploy-to-remote-sites"><a class="header-anchor" href="#deploy-to-remote-sites">¶</a>Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;br&gt;
     
     </summary>
     

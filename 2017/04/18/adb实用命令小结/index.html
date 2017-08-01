@@ -429,8 +429,7 @@
       
         <p>adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。</p>
 <a id="more"></a>
-<h2 id="基础脚本"><a class="header-anchor" href="#基础脚本">¶</a>基础脚本:</h2>
-<p>1、启动adb服务</p>
+<h2 id="基础脚本"><a href="#基础脚本" class="headerlink" title="基础脚本:"></a>基础脚本:</h2><p>1、启动adb服务</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb start-server</div></pre></td></tr></table></figure>
 <p>2、终止adb服务</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb kill-server</div></pre></td></tr></table></figure>
@@ -446,8 +445,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb remount</div></pre></td></tr></table></figure>
 <p>8、重启设备,可选参数进入bootloader(刷机模式)或recovery(恢复模式)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb reboot [bootloader|recovery]</div></pre></td></tr></table></figure>
-<h2 id="apk相关"><a class="header-anchor" href="#apk相关">¶</a>apk相关:</h2>
-<p>1、安装apk</p>
+<h2 id="apk相关"><a href="#apk相关" class="headerlink" title="apk相关:"></a>apk相关:</h2><p>1、安装apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb install test.apk</div><div class="line">    -r 覆盖安装，保留数据和缓存文件</div><div class="line">    -d 解决低版本version问题</div><div class="line">    -s 安装apk到sd卡</div></pre></td></tr></table></figure>
 <p>2、卸载apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb uninstall -k &lt;package_name&gt;</div></pre></td></tr></table></figure>
@@ -456,8 +454,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys package &lt;package_name&gt;</div></pre></td></tr></table></figure>
 <p>4、查看app的路径</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell pm path &lt;package_name&gt;</div></pre></td></tr></table></figure>
-<p>查看了一个普通app的路径，如下，位于data/app下面的普通app<br>
-package:/data/app/com.tencent.test-1/base.apk</p>
+<p>查看了一个普通app的路径，如下，位于data/app下面的普通app<br>package:/data/app/com.tencent.test-1/base.apk</p>
 <p>5、查看apk的版本信息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys package &lt;package_name&gt; | grep version</div></pre></td></tr></table></figure>
 <p>如果你得到的是下图的两个version版本，则为系统app,下面是系统app本身的版本，上面是升级之后的系统app的版本信息</p>
@@ -477,8 +474,7 @@ package:/data/app/com.tencent.test-1/base.apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am broadcast -a &quot;android.intent.action.AdupsFota.WriteCommandReceiver&quot;</div></pre></td></tr></table></figure>
 <p>广播可以带上不同类型的参数,–es为string参数类型,–ei为int参数类型,–ez为boolean参数类型</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am broadcast -a &quot;android.intent.action.AdupsFota.WriteCommandReceiver&quot; --es test_string &quot;this is test string&quot;</div></pre></td></tr></table></figure>
-<p>10、查看某个app的进程相关信息<br>
-10.1</p>
+<p>10、查看某个app的进程相关信息<br>10.1</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell ps &lt;package_name|PID&gt;</div></pre></td></tr></table></figure>
 <p>例如</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb shell ps com.ma.app:push</div><div class="line"></div><div class="line">USER      PID   PPID  VSIZE  RSS   WCHAN            PC  NAME</div><div class="line">u0_a116   5483  304   1776564 55112 sys_epoll_ 00000000 S com.ma.app:push</div></pre></td></tr></table></figure>
@@ -495,21 +491,18 @@ package:/data/app/com.tencent.test-1/base.apk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell getprop | grep heapgrowthlimit</div></pre></td></tr></table></figure>
 <p>得到的结果为128M: [dalvik.vm.heapgrowthlimit]: [128m]</p>
 <p>这就是说Dalvik Heap size的最大值超过了128M，就很可能发生OOM</p>
-<p>14、获取单个应用的电量消耗信息<br>
-Battery Historian是Android 5.0开始引入的，下面的命令为获取单个app的电量消耗信息，获取系统耗电信息见下节</p>
+<p>14、获取单个应用的电量消耗信息<br>Battery Historian是Android 5.0开始引入的，下面的命令为获取单个app的电量消耗信息，获取系统耗电信息见下节</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys batterystats &gt; &lt;package_name&gt; &gt; xxx.txt</div></pre></td></tr></table></figure>
 <p>上面的电量信息为原始数据，可以通过google编写的historian.py脚本把数据信息转换为可读性很好的html文件,类似TraceView生成的列表数据，之前在做app性能优化的时候起了很大的作用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python historian.py xxx.txt &gt; xxx.html</div></pre></td></tr></table></figure>
 <p>15、跑monkey,个人很喜欢这个命令，运行过程中，应用程序会不断切换画面，按照选定的不同级别反馈信息，还可以看到执行过程报告和生成的事件。测试应用的稳定性时很实用。 现在studio也有了monkeyrunner的tool</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">adb shell monkey -v -p &lt;package_name&gt; 500</div><div class="line">       -p 对象包</div><div class="line">       -v 反馈信息级别</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">:Monkey: seed=1493061025112 count=500</div><div class="line">:AllowPackage: com.tencent.mm.app:push</div><div class="line">:IncludeCategory: android.intent.category.LAUNCHER</div><div class="line">:IncludeCategory: android.intent.category.MONKEY</div><div class="line">** No activities found to run, monkey aborted.</div></pre></td></tr></table></figure>
-<h2 id="系统相关"><a class="header-anchor" href="#系统相关">¶</a>系统相关</h2>
-<p>1、查看设备名称，豌豆荚等应用就是通过此来获得设备的名称</p>
+<h2 id="系统相关"><a href="#系统相关" class="headerlink" title="系统相关"></a>系统相关</h2><p>1、查看设备名称，豌豆荚等应用就是通过此来获得设备的名称</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /system/build.prop/</div></pre></td></tr></table></figure>
 <p>结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ro.product.model=MI 3W</div><div class="line">ro.product.brand=Xiaomi</div></pre></td></tr></table></figure>
-<p>2、查看手机分辨率有两种方法，第二种方法最为简洁<br>
-2.1</p>
+<p>2、查看手机分辨率有两种方法，第二种方法最为简洁<br>2.1</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys window | grep Surface</div></pre></td></tr></table></figure>
 <p>grep是一个非常有用的参数,具体含义和用法大家自行google一下,试验结果为1080 * 1920:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Surface: shown=false layer=21000 alpha=1.0 rect=(0.0,0.0) 1080.0 x 1920.0</div></pre></td></tr></table></figure>
@@ -531,7 +524,7 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">adb [-d|-e|-s &lt;serial Number&gt;] &lt;command&gt;</div><div class="line"></div><div class="line">　　 -d:真机(多个设备中只有一个真机时适用)</div><div class="line"></div><div class="line">　　 -e:模拟器(多个设备中只有一个模拟器时适用)</div><div class="line"></div><div class="line">　　 -s:序列号</div></pre></td></tr></table></figure>
 <p>假如有两个真机连接了我的电脑，adb devices获取到的数据如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">List of devices attached</div><div class="line">1b71651	device</div><div class="line">12sdfsd   device</div></pre></td></tr></table></figure>
-<p>进入1b71651设备的命令为:</p>
+<p>进入1b71651设备的命令为: </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb -s 1b71651 shell</div></pre></td></tr></table></figure>
 <p>7、查看wifi密码(需要root权限)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat data/misc/wifi/*.conf</div></pre></td></tr></table></figure>
@@ -559,7 +552,7 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">VSS – Virtual Set Size 虚拟耗用内存（包含共享库占用的内存）</div><div class="line">RSS – Resident Set Size 实际使用物理内存（包含共享库占用的内存）</div><div class="line">PSS – Proportional Set Size 实际使用的物理内存（比例分配共享库占用的内存）</div><div class="line">USS – Unique Set Size 进程独自占用的物理内存（不包含共享库占用的内存）</div></pre></td></tr></table></figure>
 <p>11.3 查看设备上进程的cpu和内存占用情况</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell top</div></pre></td></tr></table></figure>
-<p>12、查看系统耗电情况</p>
+<p>12、查看系统耗电情况  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys batterystats &gt; xxx.txt</div></pre></td></tr></table></figure>
 <p>13、查看系统设置的闹钟</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys alarm</div></pre></td></tr></table></figure>
@@ -567,19 +560,15 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys power</div></pre></td></tr></table></figure>
 <p>返回结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Wake Locks: size=2</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;AudioMix&apos; (uid=1013, pid=236, ws=WorkSource&#123;10018&#125;)</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;Android.media.MediaPlayer&apos; ON_AFTER_RELEASE (uid=10018, pid=24023, ws=null)</div></pre></td></tr></table></figure>
-<p>15、系统时间相关<br>
-15.1<br>
-获取系统时间</p>
+<p>15、系统时间相关<br>15.1<br>获取系统时间</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date</div><div class="line">Thu May  4 20:34:29 CST 2017</div></pre></td></tr></table></figure>
-<p>15.2<br>
-修改系统时间(需要root权限)</p>
+<p>15.2<br>修改系统时间(需要root权限)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb root</div><div class="line">adb date -s &quot;yyyymmdd.[[[hh]mm]ss]&quot;</div></pre></td></tr></table></figure>
 <p>上面的参数看起来有点复杂，其实就是除了年月日之外，只有两个参数代表的是秒,再加两个参数代码的是分钟，再加两个参数是小时。</p>
 <p>例:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.03&quot;</div><div class="line">Thu May  4 00:00:03 CST 2017</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.0330&quot;</div><div class="line">Thu May  4 00:03:30 CST 2017</div></pre></td></tr></table></figure>
-<h2 id="文件操作相关"><a class="header-anchor" href="#文件操作相关">¶</a>文件操作相关:</h2>
-<p>1、拷贝文件/目录到设备</p>
+<h2 id="文件操作相关"><a href="#文件操作相关" class="headerlink" title="文件操作相关:"></a>文件操作相关:</h2><p>1、拷贝文件/目录到设备</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb push &lt;local&gt;...&lt;remote&gt;</div></pre></td></tr></table></figure>
 <p>2、从设备拷贝文件/目录，-a参数保留了文件的时间戳和模式</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb pull [-a] &lt;remote&gt;...&lt;local&gt;</div></pre></td></tr></table></figure>
@@ -605,12 +594,10 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell mkdir path/folder</div></pre></td></tr></table></figure>
 <p>12、设置文件最高读写权限</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell chmod 777 filename</div></pre></td></tr></table></figure>
-<p>13、手机未root 查看data/data/某一app文件信息</p>
-<p>笔者的小米3没有root，但是又想方便地查看data/data/目录下的一些文件，直接进入data会提示没有权限,查看的方式为进入data/data/后,运行下面的命令，就能直接进入你应用的包下了,可通用cp或者mv拷贝或移动到sdcard目录进行其他操作</p>
+<p>13、手机未root 查看data/data/某一app文件信息  </p>
+<p>  笔者的小米3没有root，但是又想方便地查看data/data/目录下的一些文件，直接进入data会提示没有权限,查看的方式为进入data/data/后,运行下面的命令，就能直接进入你应用的包下了,可通用cp或者mv拷贝或移动到sdcard目录进行其他操作</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">run-as package_name</div></pre></td></tr></table></figure>
-<h2 id="数据库相关"><a class="header-anchor" href="#数据库相关">¶</a>数据库相关</h2>
-<p>数据库的操作和今天的主题关系不大，增删改查操作不再列举。但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>
-1、操作db</p>
+<h2 id="数据库相关"><a href="#数据库相关" class="headerlink" title="数据库相关"></a>数据库相关</h2><p>数据库的操作和今天的主题关系不大，增删改查操作不再列举。但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>1、操作db</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite3 test.db</div></pre></td></tr></table></figure>
 <p>2、对db使用sqlite3命令后，通过.help查看各种使用指导</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.help</div></pre></td></tr></table></figure>
@@ -843,7 +830,7 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础脚本"><span class="nav-number">1.</span> <span class="nav-text">¶基础脚本:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apk相关"><span class="nav-number">2.</span> <span class="nav-text">¶apk相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统相关"><span class="nav-number">3.</span> <span class="nav-text">¶系统相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件操作相关"><span class="nav-number">4.</span> <span class="nav-text">¶文件操作相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库相关"><span class="nav-number">5.</span> <span class="nav-text">¶数据库相关</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础脚本"><span class="nav-number">1.</span> <span class="nav-text">基础脚本:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apk相关"><span class="nav-number">2.</span> <span class="nav-text">apk相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统相关"><span class="nav-number">3.</span> <span class="nav-text">系统相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件操作相关"><span class="nav-number">4.</span> <span class="nav-text">文件操作相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库相关"><span class="nav-number">5.</span> <span class="nav-text">数据库相关</span></a></li></ol></div>
             
 
           </div>
