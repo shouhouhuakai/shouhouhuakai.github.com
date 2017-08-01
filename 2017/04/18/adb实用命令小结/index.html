@@ -85,28 +85,16 @@
 
 
 
-<meta name="description" content="adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。
-&amp;lt;!-- more --&amp;gt;
-基础脚本:
-1、启动adb服务
-1adb">
+<meta name="description" content="adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="adb实用命令小结">
 <meta property="og:url" content="http://yoursite.com/2017/04/18/adb实用命令小结/index.html">
 <meta property="og:site_name" content="Welcome to cc's blog!">
-<meta property="og:description" content="adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。
-&amp;lt;!-- more --&amp;gt;
-基础脚本:
-1、启动adb服务
-1adb">
+<meta property="og:description" content="adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。">
 <meta property="og:updated_time" content="2017-05-05T02:04:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="adb实用命令小结">
-<meta name="twitter:description" content="adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。
-&amp;lt;!-- more --&amp;gt;
-基础脚本:
-1、启动adb服务
-1adb">
+<meta name="twitter:description" content="adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。">
 
 
 
@@ -440,198 +428,198 @@
 
       
         <p>adb对于Android程序员来说在日常的工作中使用频率很高，现将自己工作中常用的adb命令总结一下备忘，方便查询，也供大家参考。查看应用内存占用，耗电信息，启动时间，wakelock，跑monkey的命令在之前的应用性能优化中起了不小的作用。以下adb命令的测试机器为小米3,其中package_name代表包名。</p>
-<p>&lt;!-- more --&gt;</p>
-<h2>基础脚本:</h2>
+<a id="more"></a>
+<h2 id="基础脚本"><a class="header-anchor" href="#基础脚本">¶</a>基础脚本:</h2>
 <p>1、启动adb服务</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb start-server</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb start-server</div></pre></td></tr></table></figure>
 <p>2、终止adb服务</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb kill-server</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb kill-server</div></pre></td></tr></table></figure>
 <p>3、进入adb运行环境</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell</div></pre></td></tr></table></figure>
 <p>4、获取帮助 里面有adb的各种命令和参数的介绍</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb help</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb help</div></pre></td></tr></table></figure>
 <p>5、查看adb版本</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb version</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb version</div></pre></td></tr></table></figure>
 <p>6、以root权限重启adb</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb root</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb root</div></pre></td></tr></table></figure>
 <p>7、将system分区重新挂在为可读写分区，此命令在操作系统目录时很重要</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb remount</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb remount</div></pre></td></tr></table></figure>
 <p>8、重启设备,可选参数进入bootloader(刷机模式)或recovery(恢复模式)</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb reboot [bootloader|recovery]</div></pre></td></tr></table></figure></p>
-<h2>apk相关:</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb reboot [bootloader|recovery]</div></pre></td></tr></table></figure>
+<h2 id="apk相关"><a class="header-anchor" href="#apk相关">¶</a>apk相关:</h2>
 <p>1、安装apk</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb install test.apk</div><div class="line">    -r 覆盖安装，保留数据和缓存文件</div><div class="line">    -d 解决低版本version问题</div><div class="line">    -s 安装apk到sd卡</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb install test.apk</div><div class="line">    -r 覆盖安装，保留数据和缓存文件</div><div class="line">    -d 解决低版本version问题</div><div class="line">    -s 安装apk到sd卡</div></pre></td></tr></table></figure>
 <p>2、卸载apk</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb uninstall -k &lt;package_name&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb uninstall -k &lt;package_name&gt;</div></pre></td></tr></table></figure>
 <p>可选参数-k的作用为卸载软件但是保留配置和缓存文件</p>
 <p>3、查看app相关所有信息，包括action,codepath,version,需要的权限等等信息</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys package &lt;package_name&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys package &lt;package_name&gt;</div></pre></td></tr></table></figure>
 <p>4、查看app的路径</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell pm path &lt;package_name&gt;</div></pre></td></tr></table></figure></p>
-<p>查看了一个普通app的路径，如下，位于data/app下面的普通app
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell pm path &lt;package_name&gt;</div></pre></td></tr></table></figure>
+<p>查看了一个普通app的路径，如下，位于data/app下面的普通app<br>
 package:/data/app/com.tencent.test-1/base.apk</p>
 <p>5、查看apk的版本信息</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys package &lt;package_name&gt; | grep version</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys package &lt;package_name&gt; | grep version</div></pre></td></tr></table></figure>
 <p>如果你得到的是下图的两个version版本，则为系统app,下面是系统app本身的版本，上面是升级之后的系统app的版本信息</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">versionCode=8 targetSdk=22</div><div class="line">    versionName=V0.08</div><div class="line">versionCode=6 targetSdk=22</div><div class="line">    versionName=V0.0</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">versionCode=8 targetSdk=22</div><div class="line">    versionName=V0.08</div><div class="line">versionCode=6 targetSdk=22</div><div class="line">    versionName=V0.0</div></pre></td></tr></table></figure>
 <p>6、启动activity</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am start -n &lt;package_name&gt;/.&lt;activity_class_name&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am start -n &lt;package_name&gt;/.&lt;activity_class_name&gt;</div></pre></td></tr></table></figure>
 <p>7、获得应用的启动时间，可以很方便地获取应用的启动时间</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am start -W &lt;package_name&gt;/.&lt;activity_class_name&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am start -W &lt;package_name&gt;/.&lt;activity_class_name&gt;</div></pre></td></tr></table></figure>
 <p>试验结果如下:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">adb shell am start -W com.cc.test/com.painter.test.PainterMainActivity</div><div class="line">Starting: Intent &#123; act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.cc.test/com.painter.test.PainterMainActivity &#125;</div><div class="line">Status: ok</div><div class="line">Activity: com.cc.test/com.painter.test.PainterMainActivity</div><div class="line">ThisTime: 355</div><div class="line">TotalTime: 355</div><div class="line">WaitTime: 365</div><div class="line">Complete</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">adb shell am start -W com.cc.test/com.painter.test.PainterMainActivity</div><div class="line">Starting: Intent &#123; act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.cc.test/com.painter.test.PainterMainActivity &#125;</div><div class="line">Status: ok</div><div class="line">Activity: com.cc.test/com.painter.test.PainterMainActivity</div><div class="line">ThisTime: 355</div><div class="line">TotalTime: 355</div><div class="line">WaitTime: 365</div><div class="line">Complete</div></pre></td></tr></table></figure>
 <p>返回的几个结果，以WaitTime为准，返回的是从startActivity到应用第一帧完全显示的时间。</p>
 <p>8、启动service,am的-n参数表示组件，-a参数表示命令，-a后面的参数为manifest中定义的service的action</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am startservice -n &lt;package_name&gt;/.&lt;service_class_name&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am startservice -n &lt;package_name&gt;/.&lt;service_class_name&gt;</div></pre></td></tr></table></figure>
 <p>也可:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am startservice -a &quot;android.intent.action.CALL&quot;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am startservice -a &quot;android.intent.action.CALL&quot;</div></pre></td></tr></table></figure>
 <p>9、发送广播</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am broadcast -a &quot;android.intent.action.AdupsFota.WriteCommandReceiver&quot;</div></pre></td></tr></table></figure></p>
-<p>广播可以带上不同类型的参数,--es为string参数类型,--ei为int参数类型,--ez为boolean参数类型</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am broadcast -a &quot;android.intent.action.AdupsFota.WriteCommandReceiver&quot; --es test_string &quot;this is test string&quot;</div></pre></td></tr></table></figure></p>
-<p>10、查看某个app的进程相关信息
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am broadcast -a &quot;android.intent.action.AdupsFota.WriteCommandReceiver&quot;</div></pre></td></tr></table></figure>
+<p>广播可以带上不同类型的参数,–es为string参数类型,–ei为int参数类型,–ez为boolean参数类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell am broadcast -a &quot;android.intent.action.AdupsFota.WriteCommandReceiver&quot; --es test_string &quot;this is test string&quot;</div></pre></td></tr></table></figure>
+<p>10、查看某个app的进程相关信息<br>
 10.1</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell ps &lt;package_name|PID&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell ps &lt;package_name|PID&gt;</div></pre></td></tr></table></figure>
 <p>例如</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb shell ps com.ma.app:push</div><div class="line"></div><div class="line">USER      PID   PPID  VSIZE  RSS   WCHAN            PC  NAME</div><div class="line">u0_a116   5483  304   1776564 55112 sys_epoll_ 00000000 S com.ma.app:push</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adb shell ps com.ma.app:push</div><div class="line"></div><div class="line">USER      PID   PPID  VSIZE  RSS   WCHAN            PC  NAME</div><div class="line">u0_a116   5483  304   1776564 55112 sys_epoll_ 00000000 S com.ma.app:push</div></pre></td></tr></table></figure>
 <p>小米手机上测试成功，在另外一个设备上，如果ps后面的参数是包名则显示不了进程的详细信息，参见下面的方式获取</p>
 <p>10.2</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell ps | grep &lt;package_name&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell ps | grep &lt;package_name&gt;</div></pre></td></tr></table></figure>
 <p>11、杀掉某个进程，一般用于模拟某个bug复现</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell kill pidNumber</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell kill pidNumber</div></pre></td></tr></table></figure>
 <p>12、查看某一个app的内存占用</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys meminfo &lt;package_name|PID&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys meminfo &lt;package_name|PID&gt;</div></pre></td></tr></table></figure>
 <p>结果如下，其中的Heap size包括了Dalvik Heap和Native Heap,平时我们所说的内存限制指的是Dalvik Heap。</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"> Pss  Private  Private  Swapped     Heap     Heap     Heap</div><div class="line">                 Total    Dirty    Clean    Dirty     Size    Alloc     Free</div><div class="line">                ------   ------   ------   ------   ------   ------   ------</div><div class="line">  Native Heap    18956    18940        0     4696    44288    21352    22935</div><div class="line">  Dalvik Heap    60102    60088        0    26192   104486    88285    16201</div><div class="line">  </div><div class="line">App Summary</div><div class="line">                       Pss(KB)</div><div class="line">                        ------</div><div class="line">           Java Heap:    61640</div><div class="line">         Native Heap:    18940</div><div class="line">                Code:     3356</div><div class="line">               Stack:      428</div><div class="line">            Graphics:    16876</div><div class="line">       Private Other:     3840</div><div class="line">              System:     2031</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"> Pss  Private  Private  Swapped     Heap     Heap     Heap</div><div class="line">                 Total    Dirty    Clean    Dirty     Size    Alloc     Free</div><div class="line">                ------   ------   ------   ------   ------   ------   ------</div><div class="line">  Native Heap    18956    18940        0     4696    44288    21352    22935</div><div class="line">  Dalvik Heap    60102    60088        0    26192   104486    88285    16201</div><div class="line">  </div><div class="line">App Summary</div><div class="line">                       Pss(KB)</div><div class="line">                        ------</div><div class="line">           Java Heap:    61640</div><div class="line">         Native Heap:    18940</div><div class="line">                Code:     3356</div><div class="line">               Stack:      428</div><div class="line">            Graphics:    16876</div><div class="line">       Private Other:     3840</div><div class="line">              System:     2031</div><div class="line">...</div></pre></td></tr></table></figure>
 <p>13、查看单个应用程序的最大内存限制</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell getprop | grep heapgrowthlimit</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell getprop | grep heapgrowthlimit</div></pre></td></tr></table></figure>
 <p>得到的结果为128M: [dalvik.vm.heapgrowthlimit]: [128m]</p>
 <p>这就是说Dalvik Heap size的最大值超过了128M，就很可能发生OOM</p>
-<p>14、获取单个应用的电量消耗信息
+<p>14、获取单个应用的电量消耗信息<br>
 Battery Historian是Android 5.0开始引入的，下面的命令为获取单个app的电量消耗信息，获取系统耗电信息见下节</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys batterystats &gt; &lt;package_name&gt; &gt; xxx.txt</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys batterystats &gt; &lt;package_name&gt; &gt; xxx.txt</div></pre></td></tr></table></figure>
 <p>上面的电量信息为原始数据，可以通过google编写的historian.py脚本把数据信息转换为可读性很好的html文件,类似TraceView生成的列表数据，之前在做app性能优化的时候起了很大的作用</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python historian.py xxx.txt &gt; xxx.html</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python historian.py xxx.txt &gt; xxx.html</div></pre></td></tr></table></figure>
 <p>15、跑monkey,个人很喜欢这个命令，运行过程中，应用程序会不断切换画面，按照选定的不同级别反馈信息，还可以看到执行过程报告和生成的事件。测试应用的稳定性时很实用。 现在studio也有了monkeyrunner的tool</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">adb shell monkey -v -p &lt;package_name&gt; 500</div><div class="line">       -p 对象包</div><div class="line">       -v 反馈信息级别</div></pre></td></tr></table></figure></p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">:Monkey: seed=1493061025112 count=500</div><div class="line">:AllowPackage: com.tencent.mm.app:push</div><div class="line">:IncludeCategory: android.intent.category.LAUNCHER</div><div class="line">:IncludeCategory: android.intent.category.MONKEY</div><div class="line">** No activities found to run, monkey aborted.</div></pre></td></tr></table></figure></p>
-<h2>系统相关</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">adb shell monkey -v -p &lt;package_name&gt; 500</div><div class="line">       -p 对象包</div><div class="line">       -v 反馈信息级别</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">:Monkey: seed=1493061025112 count=500</div><div class="line">:AllowPackage: com.tencent.mm.app:push</div><div class="line">:IncludeCategory: android.intent.category.LAUNCHER</div><div class="line">:IncludeCategory: android.intent.category.MONKEY</div><div class="line">** No activities found to run, monkey aborted.</div></pre></td></tr></table></figure>
+<h2 id="系统相关"><a class="header-anchor" href="#系统相关">¶</a>系统相关</h2>
 <p>1、查看设备名称，豌豆荚等应用就是通过此来获得设备的名称</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /system/build.prop/</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /system/build.prop/</div></pre></td></tr></table></figure>
 <p>结果:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ro.product.model=MI 3W</div><div class="line">ro.product.brand=Xiaomi</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ro.product.model=MI 3W</div><div class="line">ro.product.brand=Xiaomi</div></pre></td></tr></table></figure>
 <p>2、查看手机分辨率有两种方法，第二种方法最为简洁<br>
 2.1</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys window | grep Surface</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys window | grep Surface</div></pre></td></tr></table></figure>
 <p>grep是一个非常有用的参数,具体含义和用法大家自行google一下,试验结果为1080 * 1920:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Surface: shown=false layer=21000 alpha=1.0 rect=(0.0,0.0) 1080.0 x 1920.0</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Surface: shown=false layer=21000 alpha=1.0 rect=(0.0,0.0) 1080.0 x 1920.0</div></pre></td></tr></table></figure>
 <p>2.2.</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell wm size</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell wm size</div></pre></td></tr></table></figure>
 <p>返回结果为:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Physical size: 1080x1920</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Physical size: 1080x1920</div></pre></td></tr></table></figure>
 <p>3、查看手机sdk版本</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell getprop | grep version</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell getprop | grep version</div></pre></td></tr></table></figure>
 <p>运行上面的命令后，列出来的version中[ro.build.version.release]: [6.0.1]即为手机sdk版本</p>
 <p>4、查看手机型号信息</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell getprop | grep product</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell getprop | grep product</div></pre></td></tr></table></figure>
 <p>运行此命令之后，能看到product,board,brand和cpu等等的型号</p>
 <p>5、获取序列号，获取到的序列号即为adb devices列出来的序列号</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb get-serialno</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb get-serialno</div></pre></td></tr></table></figure>
 <p>6、查看连接的设备</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb devices</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb devices</div></pre></td></tr></table></figure>
 <p>如果有多个设备连接，想对其中的某一设备进行操作，就需要在此命令的后面加参数</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">adb [-d|-e|-s &lt;serial Number&gt;] &lt;command&gt;</div><div class="line"></div><div class="line">　　 -d:真机(多个设备中只有一个真机时适用)</div><div class="line"></div><div class="line">　　 -e:模拟器(多个设备中只有一个模拟器时适用)</div><div class="line"></div><div class="line">　　 -s:序列号</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">adb [-d|-e|-s &lt;serial Number&gt;] &lt;command&gt;</div><div class="line"></div><div class="line">　　 -d:真机(多个设备中只有一个真机时适用)</div><div class="line"></div><div class="line">　　 -e:模拟器(多个设备中只有一个模拟器时适用)</div><div class="line"></div><div class="line">　　 -s:序列号</div></pre></td></tr></table></figure>
 <p>假如有两个真机连接了我的电脑，adb devices获取到的数据如下</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">List of devices attached</div><div class="line">1b71651	device</div><div class="line">12sdfsd   device</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">List of devices attached</div><div class="line">1b71651	device</div><div class="line">12sdfsd   device</div></pre></td></tr></table></figure>
 <p>进入1b71651设备的命令为:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb -s 1b71651 shell</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb -s 1b71651 shell</div></pre></td></tr></table></figure>
 <p>7、查看wifi密码(需要root权限)</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat data/misc/wifi/*.conf</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat data/misc/wifi/*.conf</div></pre></td></tr></table></figure>
 <p>8、查看wifi_mac</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /sys/class/net/wlan0/address</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /sys/class/net/wlan0/address</div></pre></td></tr></table></figure>
 <p>运行此命令，93:a1:a2:91:d1:c1是小米3的wifi_mac地址</p>
 <p>9、查看后台services信息</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell service list</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell service list</div></pre></td></tr></table></figure>
 <p>运行结果为</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Found 126 services:</div><div class="line">0	miui.whetstone.net: [miui.whetstone.INetworkService]</div><div class="line">1	miui.whetstone.power: [miui.whetstone.power]</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Found 126 services:</div><div class="line">0	miui.whetstone.net: [miui.whetstone.INetworkService]</div><div class="line">1	miui.whetstone.power: [miui.whetstone.power]</div><div class="line">...</div></pre></td></tr></table></figure>
 <p>10、查看系统当前内存占用，为综述</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /proc/meminfo</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat /proc/meminfo</div></pre></td></tr></table></figure>
 <p>运行结果:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">MemTotal:        1893504 kB</div><div class="line">MemFree:           81200 kB</div><div class="line">Buffers:           14828 kB</div><div class="line">Cached:           244152 kB</div><div class="line">SwapCached:        15152 kB</div><div class="line">Active:           541680 kB</div><div class="line">Inactive:         575280 kB</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">MemTotal:        1893504 kB</div><div class="line">MemFree:           81200 kB</div><div class="line">Buffers:           14828 kB</div><div class="line">Cached:           244152 kB</div><div class="line">SwapCached:        15152 kB</div><div class="line">Active:           541680 kB</div><div class="line">Inactive:         575280 kB</div><div class="line">...</div></pre></td></tr></table></figure>
 <p>11、查看各进程详细内存占用和系统的内存占用有几种方法</p>
 <p>11.1</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys meminfo</div></pre></td></tr></table></figure></p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Total PSS SWAP by process:</div><div class="line">    97858 kB:   34944 kB: com.android.systemui (pid 2769)</div><div class="line">    ...</div><div class="line">Total RAM: 1893504 kB (status normal)</div><div class="line">Free RAM: 344212 kB (117992 cached pss + 136016 cached kernel + 90204 free)</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys meminfo</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Total PSS SWAP by process:</div><div class="line">    97858 kB:   34944 kB: com.android.systemui (pid 2769)</div><div class="line">    ...</div><div class="line">Total RAM: 1893504 kB (status normal)</div><div class="line">Free RAM: 344212 kB (117992 cached pss + 136016 cached kernel + 90204 free)</div></pre></td></tr></table></figure>
 <p>Total PSS 信息就是你的应用真正占据的内存大小，通过这个信息，可以轻松判别手机中哪些程序占内存比较大。</p>
 <p>11.2 查看各进程内存的另一方法 不是所有设备都支持</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell procrank</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell procrank</div></pre></td></tr></table></figure>
 <p>运行结果如下:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">PID       Vss      Rss      Pss      Uss  cmdline</div><div class="line">  496  1810184K   92744K   57607K   48348K  system_server</div><div class="line">  743  1847492K   84492K   52117K   46796K  com.android.systemui</div><div class="line"> ....</div><div class="line">                           ------   ------  ------</div><div class="line">                          328259K  261484K  TOTAL</div><div class="line"></div><div class="line">RAM: 2061012K total, 889152K free, 40940K buffers, 612032K cached, 300K shmem, 62556K slab</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">PID       Vss      Rss      Pss      Uss  cmdline</div><div class="line">  496  1810184K   92744K   57607K   48348K  system_server</div><div class="line">  743  1847492K   84492K   52117K   46796K  com.android.systemui</div><div class="line"> ....</div><div class="line">                           ------   ------  ------</div><div class="line">                          328259K  261484K  TOTAL</div><div class="line"></div><div class="line">RAM: 2061012K total, 889152K free, 40940K buffers, 612032K cached, 300K shmem, 62556K slab</div></pre></td></tr></table></figure>
 <p>其中</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">VSS – Virtual Set Size 虚拟耗用内存（包含共享库占用的内存）</div><div class="line">RSS – Resident Set Size 实际使用物理内存（包含共享库占用的内存）</div><div class="line">PSS – Proportional Set Size 实际使用的物理内存（比例分配共享库占用的内存）</div><div class="line">USS – Unique Set Size 进程独自占用的物理内存（不包含共享库占用的内存）</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">VSS – Virtual Set Size 虚拟耗用内存（包含共享库占用的内存）</div><div class="line">RSS – Resident Set Size 实际使用物理内存（包含共享库占用的内存）</div><div class="line">PSS – Proportional Set Size 实际使用的物理内存（比例分配共享库占用的内存）</div><div class="line">USS – Unique Set Size 进程独自占用的物理内存（不包含共享库占用的内存）</div></pre></td></tr></table></figure>
 <p>11.3 查看设备上进程的cpu和内存占用情况</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell top</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell top</div></pre></td></tr></table></figure>
 <p>12、查看系统耗电情况</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys batterystats &gt; xxx.txt</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys batterystats &gt; xxx.txt</div></pre></td></tr></table></figure>
 <p>13、查看系统设置的闹钟</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys alarm</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys alarm</div></pre></td></tr></table></figure>
 <p>14、查看系统的wakelock,不合理的使用wakelock会导致系统耗电加剧</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys power</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell dumpsys power</div></pre></td></tr></table></figure>
 <p>返回结果:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Wake Locks: size=2</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;AudioMix&apos; (uid=1013, pid=236, ws=WorkSource&#123;10018&#125;)</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;Android.media.MediaPlayer&apos; ON_AFTER_RELEASE (uid=10018, pid=24023, ws=null)</div></pre></td></tr></table></figure></p>
-<p>15、系统时间相关
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Wake Locks: size=2</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;AudioMix&apos; (uid=1013, pid=236, ws=WorkSource&#123;10018&#125;)</div><div class="line">  PARTIAL_WAKE_LOCK              &apos;Android.media.MediaPlayer&apos; ON_AFTER_RELEASE (uid=10018, pid=24023, ws=null)</div></pre></td></tr></table></figure>
+<p>15、系统时间相关<br>
 15.1<br>
 获取系统时间</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date</div><div class="line">Thu May  4 20:34:29 CST 2017</div></pre></td></tr></table></figure></p>
-<p>15.2
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date</div><div class="line">Thu May  4 20:34:29 CST 2017</div></pre></td></tr></table></figure>
+<p>15.2<br>
 修改系统时间(需要root权限)</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb root</div><div class="line">adb date -s &quot;yyyymmdd.[[[hh]mm]ss]&quot;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb root</div><div class="line">adb date -s &quot;yyyymmdd.[[[hh]mm]ss]&quot;</div></pre></td></tr></table></figure>
 <p>上面的参数看起来有点复杂，其实就是除了年月日之外，只有两个参数代表的是秒,再加两个参数代码的是分钟，再加两个参数是小时。</p>
 <p>例:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.03&quot;</div><div class="line">Thu May  4 00:00:03 CST 2017</div></pre></td></tr></table></figure></p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.0330&quot;</div><div class="line">Thu May  4 00:03:30 CST 2017</div></pre></td></tr></table></figure></p>
-<h2>文件操作相关:</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.03&quot;</div><div class="line">Thu May  4 00:00:03 CST 2017</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell date -s &quot;20170504.0330&quot;</div><div class="line">Thu May  4 00:03:30 CST 2017</div></pre></td></tr></table></figure>
+<h2 id="文件操作相关"><a class="header-anchor" href="#文件操作相关">¶</a>文件操作相关:</h2>
 <p>1、拷贝文件/目录到设备</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb push &lt;local&gt;...&lt;remote&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb push &lt;local&gt;...&lt;remote&gt;</div></pre></td></tr></table></figure>
 <p>2、从设备拷贝文件/目录，-a参数保留了文件的时间戳和模式</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb pull [-a] &lt;remote&gt;...&lt;local&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb pull [-a] &lt;remote&gt;...&lt;local&gt;</div></pre></td></tr></table></figure>
 <p>3、查看设备log,和studio和eclipse的logcat相同，可通过参数控制输出的日志</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">adb logcat</div><div class="line">      -s 过滤指定参数log</div><div class="line">      -v time 保留日志时间</div><div class="line">      &gt;&gt; 追加写</div><div class="line">      &gt; 覆盖写</div></pre></td></tr></table></figure></p>
-<p>下面的命令含义为:打印出log信息中的时间并且包含关键字 &quot;Test&quot; 的所有log以覆盖写的方式保存到test文件</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb logcat -v time -s Test &gt; test.txt</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">adb logcat</div><div class="line">      -s 过滤指定参数log</div><div class="line">      -v time 保留日志时间</div><div class="line">      &gt;&gt; 追加写</div><div class="line">      &gt; 覆盖写</div></pre></td></tr></table></figure>
+<p>下面的命令含义为:打印出log信息中的时间并且包含关键字 “Test” 的所有log以覆盖写的方式保存到test文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb logcat -v time -s Test &gt; test.txt</div></pre></td></tr></table></figure>
 <p>4、列出目录下的文件和文件夹，可选参数-al可查看文件和文件夹的详细信息</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell ls [-al]</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell ls [-al]</div></pre></td></tr></table></figure>
 <p>5、进入文件夹</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cd &lt;folder&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cd &lt;folder&gt;</div></pre></td></tr></table></figure>
 <p>6、查看文件</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat &lt;filename&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cat &lt;filename&gt;</div></pre></td></tr></table></figure>
 <p>7、重命名文件</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell rename path/oldfilename path/newfilename</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell rename path/oldfilename path/newfilename</div></pre></td></tr></table></figure>
 <p>8、删除文件/文件夹</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell rm path/filename</div><div class="line">    -r 可选参数用于删除文件夹及下面的所有文件 eg:adb shell rm -r &lt;folder&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell rm path/filename</div><div class="line">    -r 可选参数用于删除文件夹及下面的所有文件 eg:adb shell rm -r &lt;folder&gt;</div></pre></td></tr></table></figure>
 <p>9、移动文件</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell mv path/filename newpath/filename</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell mv path/filename newpath/filename</div></pre></td></tr></table></figure>
 <p>10、拷贝文件</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cp file newpath/file1</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell cp file newpath/file1</div></pre></td></tr></table></figure>
 <p>11、创建目录</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell mkdir path/folder</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell mkdir path/folder</div></pre></td></tr></table></figure>
 <p>12、设置文件最高读写权限</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell chmod 777 filename</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb shell chmod 777 filename</div></pre></td></tr></table></figure>
 <p>13、手机未root 查看data/data/某一app文件信息</p>
 <p>笔者的小米3没有root，但是又想方便地查看data/data/目录下的一些文件，直接进入data会提示没有权限,查看的方式为进入data/data/后,运行下面的命令，就能直接进入你应用的包下了,可通用cp或者mv拷贝或移动到sdcard目录进行其他操作</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">run-as package_name</div></pre></td></tr></table></figure></p>
-<h2>数据库相关</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">run-as package_name</div></pre></td></tr></table></figure>
+<h2 id="数据库相关"><a class="header-anchor" href="#数据库相关">¶</a>数据库相关</h2>
 <p>数据库的操作和今天的主题关系不大，增删改查操作不再列举。但是平时的开发过程中只是查看数据库中某个表或者某个字段，也无需每次都pull出来之后再查看，用命令行会更加方便快捷,进入到test.db的目录后，运行如下命令<br>
 1、操作db</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite3 test.db</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite3 test.db</div></pre></td></tr></table></figure>
 <p>2、对db使用sqlite3命令后，通过.help查看各种使用指导</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.help</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.help</div></pre></td></tr></table></figure>
 <p>3、列举数据库的table名称</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.tables</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.tables</div></pre></td></tr></table></figure>
 <p>4、列表数据库的schema，个人觉得下面两个命令很有用，效果等同，可以方便快捷地查看数据库字段对应的数据类型，.schema更加简洁</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.schema</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.schema</div></pre></td></tr></table></figure>
 <p>或者</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from sqlite_master where type = &quot;table&quot;;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from sqlite_master where type = &quot;table&quot;;</div></pre></td></tr></table></figure>
 <p>ps:原创文章，转载注明出处</p>
 
       
@@ -855,7 +843,7 @@ Battery Historian是Android 5.0开始引入的，下面的命令为获取单个a
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">基础脚本:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">apk相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">系统相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">文件操作相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">数据库相关</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础脚本"><span class="nav-number">1.</span> <span class="nav-text">¶基础脚本:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apk相关"><span class="nav-number">2.</span> <span class="nav-text">¶apk相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统相关"><span class="nav-number">3.</span> <span class="nav-text">¶系统相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件操作相关"><span class="nav-number">4.</span> <span class="nav-text">¶文件操作相关:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库相关"><span class="nav-number">5.</span> <span class="nav-text">¶数据库相关</span></a></li></ol></div>
             
 
           </div>
