@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-05T02:04:01.000Z</updated>
+  <updated>2017-05-22T15:03:28.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MakeFile小结</title>
+    <link href="http://yoursite.com/2017/05/22/MakeFile%E5%B0%8F%E7%BB%93/"/>
+    <id>http://yoursite.com/2017/05/22/MakeFile小结/</id>
+    <published>2017-05-22T15:03:28.000Z</published>
+    <updated>2017-05-22T15:03:28.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>adb实用命令小结</title>
